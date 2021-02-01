@@ -15,12 +15,28 @@ class GameSeeder extends Seeder
     {
         Game::create([
             "slug" => "memory",
-            "score" => 300
+            "score" => 400
         ]);
 
         Game::create([
             "slug" => "snake",
-            "score" => 200
+            "score" => 300
+        ]);
+        Game::create([
+            "slug" => "soundpad",
+            "score" => 300
+        ]);
+        Game::create([
+            "slug" => "tetris",
+            "score" => 400
+        ]);
+        Game::create([
+            "slug" => "qrcode",
+            "score" => 400
+        ]);
+        Game::create([
+            "slug" => "piano",
+            "score" => 400
         ]);
     }
 }
