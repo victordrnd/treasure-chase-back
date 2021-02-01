@@ -22,6 +22,6 @@ class UserController extends Controller
     }
 
     public function getAll(){
-        return response()->json(User::orderBy("score")->get());
+        return response()->json(User::orderBy("score","desc")->get());
     }
 }

@@ -38,5 +38,10 @@ class GameSeeder extends Seeder
             "slug" => "piano",
             "score" => 400
         ]);
+
+        Game::create([
+            "slug" => "liste",
+            "score" => 50
+        ]);
     }
 }

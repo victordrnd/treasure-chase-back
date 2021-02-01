@@ -34,6 +34,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(["prefix" => "games"], function(){
         Route::get('my', [GameController::class, "getMyGames"]);
         Route::post('finished', [GameController::class, "gameFinished"]);
+        Route::get('loose', [GameController::class, "loose"]);
     });
 });
 

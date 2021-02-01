@@ -15,6 +15,12 @@ class GameController extends Controller
     }
 
 
+    public function loose(){
+        $user = auth()->user();
+        $user->score = 0;
+        $user->save();
+        return response()->json($user);  
+    }
 
     public function gameFinished(GameFinishedRequest $req){
         $game = Game::where('slug',$req->step)->first();
