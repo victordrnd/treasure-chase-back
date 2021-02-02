@@ -32,9 +32,11 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     });
 
     Route::group(["prefix" => "games"], function(){
-        Route::get('my', [GameController::class, "getMyGames"]);
-        Route::post('finished', [GameController::class, "gameFinished"]);
-        Route::get('loose', [GameController::class, "loose"]);
+        Route::group(["middleware" => 'ajax'], function(){
+            Route::get('my', [GameController::class, "getMyGames"]);
+            Route::get('loose', [GameController::class, "loose"]);
+            Route::post('finished', [GameController::class, "gameFinished"]);
+        });
     });
 });
 
