@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/tombola/all', [TombolaController::class, "getAll"]);
 Route::post('/tombola/new', [TombolaController::class, 'newTicket']);
 
 Route::group(['prefix' => 'auth'], function(){

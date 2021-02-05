@@ -22,4 +22,10 @@ class TombolaController extends Controller
         return response()->json($tombola);
 
     }
+
+
+    public function getAll(){
+        $tombola = Tombola::all();
+        return response()->json($tombola);
+    }
 }
