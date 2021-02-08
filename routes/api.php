@@ -45,7 +45,10 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
 
 Route::group(['prefix' => 'admin'], function(){
-    Route::get("users", [UserController::class, 'getAll']);
+   Route::middleware('throttle:10,1')->group(function () {
+	Route::get("users", [UserController::class, 'getAll']);
+   });
+   // Route::get("users", [UserController::class, 'getAll']);
     Route::post('score/edit', [UserController::class, 'editScore']);
     Route::post('score/add', [UserController::class, 'addScore']);
 });
