@@ -8,12 +8,12 @@ use App\Models\User;
 
 class UserController extends Controller {
     public function editScore(AddScoreRequest $request) {
-        if ($req->passcode == "victordrnd") {
+        //if ($req->passcode == "victordrnd") {
             $user = User::find($request->id);
             $user->score = $request->score;
             $user->save();
             return response()->json($user);
-        }
+        //}
     }
 
     public function addScore(AddScoreRequest $request) {
