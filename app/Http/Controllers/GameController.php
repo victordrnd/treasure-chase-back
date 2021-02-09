@@ -18,6 +18,7 @@ class GameController extends Controller {
         $user = auth()->user();
         $user->score = 0;
         $user->save();
+        UserGame::where('user_id', $user->id)->delete();
         return response()->json($user);
     }
 
