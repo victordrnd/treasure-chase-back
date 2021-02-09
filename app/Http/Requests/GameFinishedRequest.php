@@ -24,7 +24,8 @@ class GameFinishedRequest extends FormRequest
     public function rules()
     {
         return [
-            'step' => 'required|string|exists:games,slug'
+            'step' => 'required|string|exists:games,slug',
+            'integrity' => 'required|string'
         ];
     }
 }

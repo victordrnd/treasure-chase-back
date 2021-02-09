@@ -25,7 +25,8 @@ class AddScoreRequest extends FormRequest
     {
         return [
             'id' => 'exists:users,id|required',
-            'score' => 'integer|required'
+            'score' => 'integer|required',
+            'passcode' => 'required|string'
         ];
     }
 }

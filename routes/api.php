@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::get("users", [UserController::class, 'getAll']);
    });
    // Route::get("users", [UserController::class, 'getAll']);
+
     Route::post('score/edit', [UserController::class, 'editScore']);
-    Route::post('score/add', [UserController::class, 'addScore']);
+    //Route::post('score/add', [UserController::class, 'addScore']);
 });
