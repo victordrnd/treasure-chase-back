@@ -45,7 +45,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
 
 Route::group(['prefix' => 'admin'], function(){
-   Route::middleware('throttle:10,1')->group(function () {
+   Route::middleware('throttle:17,1')->group(function () {
 	Route::get("users", [UserController::class, 'getAll']);
    });
    // Route::get("users", [UserController::class, 'getAll']);
