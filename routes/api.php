@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\PanierController;
+use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -22,25 +24,33 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/tombola/all', [TombolaController::class, "getAll"]);
-Route::post('/tombola/new', [TombolaController::class, 'newTicket']);
+// Route::get('/tombola/all', [TombolaController::class, "getAll"]);
+// Route::post('/tombola/new', [TombolaController::class, 'newTicket']);
 
 Route::group(['prefix' => 'auth'], function(){
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
+});
+Route::group(['prefix' => 'paniers'], function(){
+    Route::get('periods', [PeriodController::class, "getAll"]);
+    Route::post('period/{id}/update', [PeriodController::class, "updatePeriod"]);
+    Route::get('all', [PanierController::class, "getAll"]);
+    Route::post('admin/delete', [PanierController::class, "delete"]);
+    Route::post('book', [PanierController::class, "create"]);
 });
 Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::get('current', [AuthController::class, 'getCurrentUser']);
     });
 
-    Route::group(["prefix" => "games"], function(){
-        Route::group(["middleware" => 'ajax'], function(){
-            Route::get('my', [GameController::class, "getMyGames"]);
-            Route::get('loose', [GameController::class, "loose"]);
-            Route::post('finished', [GameController::class, "gameFinished"]);
-        });
-    });
+    
+    // Route::group(["prefix" => "games"], function(){
+    //     Route::group(["middleware" => 'ajax'], function(){
+    //         Route::get('my', [GameController::class, "getMyGames"]);
+    //         Route::get('loose', [GameController::class, "loose"]);
+    //         Route::post('finished', [GameController::class, "gameFinished"]);
+    //     });
+    // });
 });
 
 
