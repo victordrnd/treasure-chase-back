@@ -17,7 +17,7 @@ class PanierController extends Controller
             $panier = Panier::create($req->all());
             return $panier;
         }
-        return response()->json(["error" => "Tous les paniers sont déjà réservés pour cette période."]);
+        return response()->json(["error" => "Tous les paniers sont déjà réservés pour cette période."], 422);
     }
 
 
