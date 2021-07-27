@@ -6,6 +6,7 @@ use App\Http\Controllers\PanierController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WeiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,8 +41,11 @@ Route::group(['prefix' => 'paniers'], function(){
 });
 
 Route::group(['prefix' => 'wei'], function(){
+    Route::get('/', [WeiController::class, "all"]);
     Route::post('/register', [WeiController::class, "store"]);
 });
+
+
 Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::get('current', [AuthController::class, 'getCurrentUser']);

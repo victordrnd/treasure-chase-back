@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 
 class WeiController extends Controller
 {
-    public function register(Request $req){
+    public function store(Request $req){
         $wei = new Wei($req->all());
         $wei->save();
         return $wei;
+    }
+
+
+    public function all(){
+        return Wei::all();
     }
 }
