@@ -38,6 +38,10 @@ Route::group(['prefix' => 'paniers'], function(){
     Route::post('admin/delete', [PanierController::class, "delete"]);
     Route::post('book', [PanierController::class, "create"]);
 });
+
+Route::group(['prefix' => 'wei'], function(){
+    Route::post('/register', [WeiController::class, "store"]);
+});
 Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::get('current', [AuthController::class, 'getCurrentUser']);
