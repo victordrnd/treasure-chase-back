@@ -9,9 +9,10 @@ class WeiController extends Controller {
     public function store(Request $req) {
         $wei = Wei::updateOrCreate(
             [
-                'email' => $req->email
+                'email' => $req->email,
+                'phone' => $req->phone
             ],
-            $req->except(['email'])
+            $req->except(['email', 'phone'])
         );
         return $wei;
     }
