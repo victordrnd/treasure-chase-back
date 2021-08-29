@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateInscriptionHHRequest;
 use App\Models\HappyHour;
 use App\Models\InscriptionHH;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class InscriptionHHController extends Controller {
