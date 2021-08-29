@@ -39,12 +39,12 @@ class InscriptionHHController extends Controller {
 
     public function scan($code) {
         $inscription =  InscriptionHH::where('code', $code)->firstOrFail();
-        //if(Carbon::parse($inscription->hh->date)->isToday()){
+        if(Carbon::parse($inscription->hh->date)->isToday()){
             $inscription->scan_count += 1;
             $inscription->save();
             return $inscription;
-        // }else{
-        //     return response()->json("La date du HH n'est pas valide pour aujourd'hui (".$inscription->hh->date.")", 401);
-        // }
+        }else{
+            return response()->json("La date du HH n'est pas valide pour aujourd'hui (".$inscription->hh->date.")", 401);
+        }
     }
 }
