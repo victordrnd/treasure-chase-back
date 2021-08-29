@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\HappyHourController;
+use App\Http\Controllers\InscriptionHHController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeiController;
+use App\Models\InscriptionHH;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +46,15 @@ Route::group(['prefix' => 'paniers'], function(){
 Route::group(['prefix' => 'wei'], function(){
     Route::get('/', [WeiController::class, "all"]);
     Route::post('/register', [WeiController::class, "store"]);
+});
+
+Route::group(['prefix' => 'happy_hours'], function(){
+    Route::get('/', [HappyHourController::class, "list"]);
+});
+
+Route::group(['prefix' => 'inscription_hh'], function(){
+    Route::post('/', [InscriptionHHController::class, "store"]);
+    Route::get('/{code}', [InscriptionHHController::class, "scan"]);
 });
 
 
