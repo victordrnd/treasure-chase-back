@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HappyHourController;
 use App\Http\Controllers\InscriptionHHController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\PanierController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\WeiController;
 use App\Models\InscriptionHH;
 use Illuminate\Http\Request;
@@ -48,13 +50,18 @@ Route::group(['prefix' => 'wei'], function(){
     Route::post('/register', [WeiController::class, "store"]);
 });
 
-Route::group(['prefix' => 'happy_hours'], function(){
-    Route::get('/', [HappyHourController::class, "list"]);
+
+Route::group(['prefix' => 'users'], function(){
+    Route::post('/', [UserController::class, 'store']);
 });
 
-Route::group(['prefix' => 'inscription_hh'], function(){
-    Route::post('/', [InscriptionHHController::class, "store"]);
-    Route::get('/{code}', [InscriptionHHController::class, "scan"]);
+Route::group(['prefix' => 'user_events'], function(){
+    Route::post('/', [UserEventController::class, 'store']);
+});
+
+Route::group(['prefix' => 'events'], function(){
+    Route::get('/', [EventController::class, "list"]);
+    Route::post('/', [EventController::class, "store"]);
 });
 
 

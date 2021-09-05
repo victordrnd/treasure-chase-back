@@ -21,7 +21,8 @@ class User extends Authenticatable implements JWTSubject
         'firstname',
         'lastname',
         'email',
-        'password',
+        'filiere',
+        'code',
     ];
 
     public function getJWTIdentifier()
@@ -46,8 +47,8 @@ class User extends Authenticatable implements JWTSubject
 
 
 
-    public function games(){
-        return $this->belongsToMany(Game::class, 'user_games', 'user_id', 'game_id');
-    }
+    // public function games(){
+    //     return $this->belongsToMany(Game::class, 'user_games', 'user_id', 'game_id');
+    // }
 
 }

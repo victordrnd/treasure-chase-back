@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHappyHoursTable extends Migration
+class UpdateUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateHappyHoursTable extends Migration
      */
     public function up()
     {
-        Schema::create('happy_hours', function (Blueprint $table) {
-            $table->id();
-            $table->date("date");
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('password');
+            $table->string('code')->after('email')->nullable();
+            $table->string('filiere')->nullable();
+            $table->dropColumn('score');
         });
     }
 
@@ -26,6 +28,6 @@ class CreateHappyHoursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('happy_hours');
+        //
     }
 }
