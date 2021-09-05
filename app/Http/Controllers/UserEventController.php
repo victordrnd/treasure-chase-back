@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserEventRequest;
+use App\Models\User;
 use App\Models\UserEvent;
 use Illuminate\Http\Request;
 
