@@ -11,6 +11,6 @@ class Event extends Model
     protected $fillable = ['code', "label"];
 
     public function users(){
-        return $this->belongsToMany(User::class, 'user_events', 'user_id', 'event_id');
+        return $this->belongsToMany(User::class, 'user_events', 'user_id', 'event_id', 'id', 'id');
     }
 }
