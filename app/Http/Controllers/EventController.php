@@ -13,10 +13,10 @@ class EventController extends Controller
     }
 
     public function show($id){
-        return Event::where('id', $id)->with('users')->first();
+        return Event::where('id', $id)->with('user_events.user')->first();
     }
 
-    
+
     public function store(CreateEventRequest $req){
         return Event::create([
             'label' => $req->label,
