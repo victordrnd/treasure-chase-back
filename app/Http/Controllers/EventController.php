@@ -12,6 +12,11 @@ class EventController extends Controller
         return Event::orderBy('created_at', 'desc')->get();
     }
 
+    public function show($id){
+        return Event::where('id', $id)->with('users')->first();
+    }
+
+    
     public function store(CreateEventRequest $req){
         return Event::create([
             'label' => $req->label,

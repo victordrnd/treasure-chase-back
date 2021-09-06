@@ -27,7 +27,7 @@ class UserController extends Controller {
     }
 
     public function getAll() {
-        return response()->json(User::orderBy("score", "desc")->orderBy("updated_at", "asc")->select('id', 'firstname', 'lastname', 'score')->get());
+        return User::all();
     }
 
     public function store(CreateUserRequest $req) {
