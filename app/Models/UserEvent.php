@@ -10,7 +10,7 @@ class UserEvent extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'event_id'];
-
+    protected $hidden = ['updated_at'];
     public function user(){
         return $this->belongsTo(User::class);
     }

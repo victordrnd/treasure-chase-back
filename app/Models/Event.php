@@ -9,7 +9,7 @@ class Event extends Model
 {
     use HasFactory;
     protected $fillable = ['code', "label"];
-
+    protected $hidden = ['updated_at'];
     public function user_events(){
         return $this->hasMany(UserEvent::class, 'event_id');
     }
