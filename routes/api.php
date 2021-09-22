@@ -45,10 +45,10 @@ Route::group(['prefix' => 'paniers'], function () {
     Route::post('book', [PanierController::class, "create"]);
 });
 
-Route::group(['prefix' => 'wei'], function () {
+//Route::group(['prefix' => 'wei'], function () {
     //Route::get('/', [WeiController::class, "all"]);
     //Route::post('/register', [WeiController::class, "store"]);
-});
+//});
 
 
 Route::group(['prefix' => 'users'], function () {
