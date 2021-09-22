@@ -46,8 +46,8 @@ Route::group(['prefix' => 'paniers'], function () {
 });
 
 Route::group(['prefix' => 'wei'], function () {
-    Route::get('/', [WeiController::class, "all"]);
-    Route::post('/register', [WeiController::class, "store"]);
+    //Route::get('/', [WeiController::class, "all"]);
+    //Route::post('/register', [WeiController::class, "store"]);
 });
 
 
