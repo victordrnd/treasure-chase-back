@@ -1,17 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\HappyHourController;
 use App\Http\Controllers\InscriptionHHController;
-use App\Http\Controllers\PanierController;
-use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\WeiController;
-use App\Models\InscriptionHH;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,29 +22,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-// Route::get('/tombola/all', [TombolaController::class, "getAll"]);
-// Route::post('/tombola/new', [TombolaController::class, 'newTicket']);
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login'])->middleware("throttle:10,1");
+    Route::post('register', [AuthController::class, 'register'])->middleware("throttle:10,1");;
 });
-Route::group(['prefix' => 'paniers'], function () {
-    Route::get('periods', [PeriodController::class, "getAll"]);
-    Route::post('period/{id}/update', [PeriodController::class, "updatePeriod"]);
-    Route::get('all', [PanierController::class, "getAll"]);
-    Route::post('admin/delete', [PanierController::class, "delete"]);
-    Route::post('book', [PanierController::class, "create"]);
-});
-
-//Route::group(['prefix' => 'wei'], function () {
-    //Route::get('/', [WeiController::class, "all"]);
-    //Route::post('/register', [WeiController::class, "store"]);
-//});
 
 
 Route::group(['prefix' => 'users'], function () {
@@ -70,22 +48,11 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::get('current', [AuthController::class, 'getCurrentUser']);
     });
-
-
-    // Route::group(["prefix" => "games"], function(){
-    //     Route::group(["middleware" => 'ajax'], function(){
-    //         Route::get('my', [GameController::class, "getMyGames"]);
-    //         Route::get('loose', [GameController::class, "loose"]);
-    //         Route::post('finished', [GameController::class, "gameFinished"]);
-    //     });
-    // });
 });
 
-
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin']], function () {
     Route::get("users", [UserController::class, 'getAll']);
-    // Route::get("users", [UserController::class, 'getAll']);
-
-    Route::post('score/edit', [UserController::class, 'editScore']);
-    //Route::post('score/add', [UserController::class, 'addScore']);
+    Route::post('upload/pumpkin',   [AdminController::class, 'upload']);
+    Route::get('pumpkin/stats',    [AdminController::class, 'getCountByDate']);
+    Route::get('billets',       [AdminController::class,    'getBillets']);
 });

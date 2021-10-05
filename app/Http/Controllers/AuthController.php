@@ -16,6 +16,11 @@ class AuthController extends Controller {
       if (!$token = auth()->setTTL(525600)->attempt($credentials)) {
         return response()->json(['error' => 'Unauthorized'], 401);
       }
+      if($request->is_admin){
+        if(!auth()->user()->is_admin){
+          return response()->json(['error' => 'Unauthorized'], 401);
+        }
+      }
       $data =  [
         'user' => auth()->user(),
         'token' => $token,
