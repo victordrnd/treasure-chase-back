@@ -26,7 +26,8 @@ class LoginRequest extends FormRequest
         return [
             'email' => 'required|email',
             'password' => 'required|string',
-            'is_admin' => 'sometimes|integer'
+            'is_admin' => 'sometimes|integer',
+            'recaptcha_token' => 'required|string|recaptcha:login,0.7'
         ];
     }
 }

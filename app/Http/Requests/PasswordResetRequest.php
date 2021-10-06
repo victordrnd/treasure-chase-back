@@ -26,7 +26,7 @@ class PasswordResetRequest extends FormRequest
         return [
             'token' => 'required|exists:users,token',
             'password' => 'required|string|min:5',
-            'recaptcha_token' => 'required|string|recaptcha:password_reset,0.1'
+            'recaptcha_token' => 'required|string|recaptcha:password_reset,0.7'
         ];
     }
 }

@@ -40,7 +40,7 @@ class AuthController extends Controller {
   public function passwordReset(PasswordResetRequest $req) {
     $user = User::where('token', $req->token)->first();
     $user->password = Hash::make($req->password);
-    //$user->token = null;
+    $user->token = null;
     $user->save();
     $credentials = [
       'email' => $user->email,
