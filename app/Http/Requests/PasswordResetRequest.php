@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateInscriptionHHRequest extends FormRequest
+class PasswordResetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class CreateInscriptionHHRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstname' => 'string|required',
-            'lastname' => 'string|required',
-            'hh_id' => 'integer|exists:happy_hours,id',
-            'filiere' => 'string|required',
-            'email' => 'email|required|regex:/^[A-Za-z0-9._%+-]+@cpe.fr$/i'
+            'token' => 'required|exists:users,token',
+            'password' => 'required|string|min:5',
+            'recaptcha_token' => 'required|string|recaptcha:password_reset,0.1'
         ];
     }
 }

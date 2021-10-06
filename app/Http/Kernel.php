@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'ajax' => \App\Http\Middleware\AjaxOnly::class,
         'auth.is_admin' => \App\Http\Middleware\IsAdminMiddleware::class,
-        'date' => \App\Http\Middleware\DateMiddleware::class
+        'date' => \App\Http\Middleware\DateMiddleware::class,
+        'recaptcha' => Huangdijia\Recaptcha\Middleware\ReCaptcha::class,
     ];
 }

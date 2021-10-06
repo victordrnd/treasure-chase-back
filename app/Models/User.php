@@ -24,6 +24,8 @@ class User extends Authenticatable implements JWTSubject
         'filiere',
         'phone',
         'code',
+        'token',
+        'is_cotisant',
         'password'
     ];
 
@@ -47,6 +49,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'code',
         'email',
+        'token',
         'created_at',
         'updated_at'
     ];

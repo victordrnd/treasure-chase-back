@@ -23,9 +23,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', [AuthController::class, 'login'])->middleware("throttle:10,1");
-    Route::post('register', [AuthController::class, 'register'])->middleware("throttle:10,1");;
+Route::group(['prefix' => 'auth', 'middleware' => 'throttle:10,1'], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('password-reset', [AuthController::class, 'passwordReset']);
+    Route::get('/token/{token}', [AuthController::class,  'getUserFromPasswordResetToken']);
 });
 
 
