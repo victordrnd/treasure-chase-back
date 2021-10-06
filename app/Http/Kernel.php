@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'ajax' => \App\Http\Middleware\AjaxOnly::class,
-        'auth.is_admin' => \App\Http\Middleware\IsAdminMiddleware::class
+        'auth.is_admin' => \App\Http\Middleware\IsAdminMiddleware::class,
+        'date' => \App\Http\Middleware\DateMiddleware::class
     ];
 }

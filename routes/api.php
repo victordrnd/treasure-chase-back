@@ -54,5 +54,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin
     Route::get("users", [UserController::class, 'getAll']);
     Route::post('upload/pumpkin',   [AdminController::class, 'upload']);
     Route::get('pumpkin/stats',    [AdminController::class, 'getCountByDate']);
-    Route::get('billets',       [AdminController::class,    'getBillets']);
+    Route::get('billets',       [AdminController::class,    'getBillets']);//->middleware('date:2021-10-06 16:00');
 });
