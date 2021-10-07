@@ -16,6 +16,6 @@ class UserEventController extends Controller
             'asso' => $req->input('asso', null)
         ]);
 
-        return $user_event->load('user');
+        return $user_event->load('user')->makeVisible(['code']);
     }
 }
