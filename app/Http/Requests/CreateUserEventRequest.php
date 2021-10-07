@@ -25,8 +25,7 @@ class CreateUserEventRequest extends FormRequest
     {
         return [
             'code' => 'string|exists:users,code',
-            'event_id' => 'integer|exists:events,id',
-            'asso' => 'string|nullable|sometimes'
+            'event_id' => 'integer|exists:events,id'
         ];
     }
 }
