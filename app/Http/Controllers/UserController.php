@@ -39,6 +39,6 @@ class UserController extends Controller {
                 'filiere' => $req->filiere,
                 'code' => uniqid("cpe_")
             ]
-        );
+        )->makeVisible(['code']);
     }
 }
