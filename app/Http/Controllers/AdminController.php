@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollectionResource;
 use App\Imports\PumpkinsImport;
 use App\Models\Pumkin;
 use App\Models\Pumpkin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\Console\Input\Input;
@@ -32,6 +34,6 @@ class AdminController extends Controller
     }
 
     public function getBillets(){
-        return Pumpkin::all();
+        return new UserCollectionResource(User::all());
     }
 }

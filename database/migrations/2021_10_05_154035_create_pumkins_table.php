@@ -15,8 +15,7 @@ class CreatePumkinsTable extends Migration
     {
         Schema::create('pumpkins', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
-            $table->double('montant');
+            $table->double('montant')->default(0);
             $table->string('email', 90);
             $table->string('phone', 10);
             $table->string('lastname', 30);

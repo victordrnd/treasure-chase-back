@@ -50,12 +50,12 @@ class AuthController extends Controller {
   }
 
   public function getUserFromPasswordResetToken($token) {
-    return User::where('token', $token)->firstOrFail()->makeVisible(['email']);
+    return User::where('token', $token)->firstOrFail()->makeVisible(['phone','email']);
   }
 
 
   public function getCurrentUser() {
-    return response()->json(auth()->user());
+    return response()->json(auth()->user()->makeVisible(['phone','email', 'is_admin']));
   }
 
 
@@ -64,7 +64,7 @@ class AuthController extends Controller {
       return response()->json(['error' => 'Unauthorized'], 401);
     }
     $data =  [
-      'user' => auth()->user(),
+      'user' => auth()->user()->makeVisible(['phone','email', 'is_admin']),
       'token' => $token,
     ];
     return $data;

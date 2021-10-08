@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\UserResource;
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -24,5 +26,6 @@ class AppServiceProvider extends ServiceProvider {
         //
         setlocale(LC_TIME, 'French');
         Carbon::setLocale('fr');
+        ResourceCollection::withoutWrapping();
     }
 }

@@ -7,7 +7,9 @@ use App\Http\Controllers\InscriptionHHController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEventController;
+use App\Http\Controllers\UserScanController;
 use App\Http\Controllers\WeiController;
+use App\Models\UserScan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,27 +25,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['prefix' => 'auth', 'middleware' => 'throttle:10,1'], function () {
+Route::group(['prefix' => 'auth', 'middleware' => 'throttle:15,1'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('password-reset', [AuthController::class, 'passwordReset']);
     Route::get('/token/{token}', [AuthController::class,  'getUserFromPasswordResetToken']);
 });
 
-
-Route::group(['prefix' => 'users'], function () {
-    Route::post('/', [UserController::class, 'store']);
+//UserScan
+Route::group(['prefix' => 'user_scans'], function () {
+    Route::post('/', [UserScanController::class, 'store']);
 });
 
 Route::group(['prefix' => 'user_events'], function () {
     Route::post('/', [UserEventController::class, 'store']);
 });
 
-Route::group(['prefix' => 'events'], function () {
-    Route::get('/', [EventController::class, "list"]);
-    Route::get('/{id}', [EventController::class, "show"])->where('id', '[0-9]+');;
-    Route::post('/', [EventController::class, "store"]);
-});
+
 
 
 Route::group(['middleware' => 'jwt.verify'], function () {
@@ -57,4 +55,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin
     Route::post('upload/pumpkin',   [AdminController::class, 'upload']);
     Route::get('pumpkin/stats',    [AdminController::class, 'getCountByDate']);
     Route::get('billets',       [AdminController::class,    'getBillets']);//->middleware('date:2021-10-06 16:00');
+
+    Route::group(['prefix' => 'events'], function () {
+        Route::get('/', [EventController::class, "list"]);
+        Route::get('/{id}', [EventController::class, "show"])->where('id', '[0-9]+');;
+        Route::post('/', [EventController::class, "store"]);
+    });
 });

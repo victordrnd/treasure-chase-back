@@ -13,10 +13,12 @@ class AlterTableUsersAddPassword extends Migration
      */
     public function up()
     {
+        \DB::statement('CREATE TABLE user_scans LIKE users');
+        \DB::statement('INSERT user_scans SELECT * FROM users');
         Schema::table('users', function (Blueprint $table) {
-            $table->string('password')->after('email');
-            //$table->string('filiere', 5)->after('password');
-            $table->string('phone', 10)->after('filiere');
+            $table->string('password')->after('email')->nullable();
+            //$table->string('filiere',18)->after('password');
+            $table->string('phone', 12)->after('filiere')->nullable();
         });
     }
 
