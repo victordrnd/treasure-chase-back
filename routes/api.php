@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\InscriptionHHController;
+use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEventController;
@@ -47,6 +48,10 @@ Route::group(['prefix' => 'user_events'], function () {
 Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::get('current', [AuthController::class, 'getCurrentUser']);
+    });
+
+    Route::group(['prefix' => 'materiels'], function(){
+        Route::get('/',         [MaterielController::class, 'list']);
     });
 });
 
