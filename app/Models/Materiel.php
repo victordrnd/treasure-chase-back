@@ -11,4 +11,11 @@ class Materiel extends Model
     public $timestamps = false;
 
     protected $fillable = ["label", "code", "price", 'materiel_category_id'];
+
+
+    public $appends = ['model'];
+
+    public function getModelAttribute(){
+        return self::class;
+    }
 }

@@ -24,7 +24,8 @@ class MaterielsResource extends JsonResource
             'foodpacks' => $this->data['foodpacks'],
             'materiel_categories' => $this->data['materiel_categories'],
             'forfaits' => $this->data['forfaits'],
-            'assurances' => $this->data["assurances"]
+            'assurances' => $this->data["assurances"],
+            'materiels' => $this->data['materiels']
         ];
     }
 }

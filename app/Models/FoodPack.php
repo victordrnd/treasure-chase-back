@@ -11,4 +11,10 @@ class FoodPack extends Model
     public $timestamps = false;
 
     protected $fillable = ["label", "code", "price"];
+
+    public $appends = ['model'];
+
+    public function getModelAttribute(){
+        return self::class;
+    }
 }

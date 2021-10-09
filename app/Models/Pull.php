@@ -11,5 +11,9 @@ class Pull extends Model
     public $timestamps = false;
     protected $fillable = ["label", "price", "taille"];
 
-    
+    public $appends = ['model'];
+
+    public function getModelAttribute(){
+        return self::class;
+    }
 }
