@@ -3,30 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePanierRequest;
+use App\Http\Requests\SaveCartRequest;
+use App\Models\ItemPanier;
 use App\Models\Panier;
 use App\Models\Period;
+use App\Models\Status;
 use Illuminate\Http\Request;
 
-class PanierController extends Controller
-{
-    //
+class PanierController extends Controller {
+    
+    public function show(){
+        return Panier::where('id', auth()->user()->panier_id)->with('items')->firstOrFail();
+    }
 
-    public function create(CreatePanierRequest $req){
-        $count = Panier::where('period_id', $req->period_id)->count();
-        if($count< 15){
-            $panier = Panier::create($req->all());
-            return $panier;
+    public function saveCart(SaveCartRequest $req) {
+        $user = auth()->user();
+        if (is_null($user->panier_id)) {
+            $panier = Panier::create([
+                'status_id' => Status::where('code', 'unfinished')->first()->id
+            ]);
+            $user->panier_id = $panier->id;
+            $user->save();
         }
-        return response()->json(["error" => "Tous les paniers sont déjà réservés pour cette période."], 422);
-    }
-
-
-    public function getAll(){
-        return Period::with("paniers")->get();
-    }
-
-    public function delete(Request $req){
-        Panier::where('id', $req->id)->delete();
-        return $this->getAll();
+        $touched_items = [];
+        foreach ($req->items as $item) {
+            $item = ItemPanier::updateOrCreate(
+                [
+                    'panier_id' => $user->panier_id,
+                    'model_type' => "App\\Models\\" . $item['model'],
+                    'model_id' => $item['id']
+                ]
+            );
+            $touched_items[] = $item->id;
+        }
+        ItemPanier::where('panier_id', $user->panier_id)->whereNotIn('id', $touched_items)->delete();
+        return $user->panier;
     }
 }

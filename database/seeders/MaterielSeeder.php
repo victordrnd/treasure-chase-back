@@ -78,7 +78,7 @@ class MaterielSeeder extends Seeder
 
         //DIAMANT
         Materiel::create([
-            'label' => 'Pack complet',
+            'label' => 'Pack ski complet',
             'code' => 'full_pack',
             'price' => 118,
             'materiel_category_id' => MaterielCategory::where('code', 'DIAMANT')->first()->id

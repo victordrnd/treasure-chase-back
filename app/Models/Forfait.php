@@ -13,9 +13,9 @@ class Forfait extends Model
     protected $fillable = ["label", "code", "price"];
 
     public $appends = ['model'];
-
+    
     public function getModelAttribute(){
-        return self::class;
+        return str_replace('App\\Models\\', '',self::class);
     }
 
 }

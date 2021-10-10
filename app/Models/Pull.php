@@ -14,6 +14,6 @@ class Pull extends Model
     public $appends = ['model'];
 
     public function getModelAttribute(){
-        return self::class;
+        return str_replace('App\\Models\\', '',self::class);
     }
 }

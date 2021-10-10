@@ -26,7 +26,10 @@ class User extends Authenticatable implements JWTSubject
         'code',
         'token',
         'is_cotisant',
-        'password'
+        'password',
+        'panier_id',
+        'taille',
+        'poids'
     ];
 
     public function getJWTIdentifier()
@@ -53,6 +56,11 @@ class User extends Authenticatable implements JWTSubject
         'created_at',
         'updated_at'
     ];
+
+
+    public function panier(){
+        return $this->belongsTo(Panier::class);
+    }
 
 
 }

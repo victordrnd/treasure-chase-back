@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\InscriptionHHController;
 use App\Http\Controllers\MaterielController;
+use App\Http\Controllers\PanierController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEventController;
@@ -52,6 +53,11 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
     Route::group(['prefix' => 'materiels'], function(){
         Route::get('/',         [MaterielController::class, 'list']);
+    });
+
+    Route::group(['prefix' => 'cart'], function(){
+        Route::get('/',         [PanierController::class, 'show']);
+        Route::post('/',        [PanierController::class, 'saveCart']);
     });
 });
 
