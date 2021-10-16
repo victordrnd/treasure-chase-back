@@ -29,7 +29,10 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'panier_id',
         'taille',
-        'poids'
+        'poids',
+        'pointure',
+        'is_allowed',
+        'is_bde'
     ];
 
     public function getJWTIdentifier()
@@ -53,6 +56,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'token',
         'is_admin',
+        'is_allowed',
         'created_at',
         'updated_at'
     ];

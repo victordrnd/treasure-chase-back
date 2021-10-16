@@ -20,11 +20,6 @@ class StatusSeeder extends Seeder
         ]);
 
         Status::create([
-            'label' => 'Complété',
-            'code' => 'completed',
-        ]);
-
-        Status::create([
             'label' => "En file d'attente",
             'code' => 'waiting_list',
         ]);

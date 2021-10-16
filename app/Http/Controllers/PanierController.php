@@ -39,4 +39,12 @@ class PanierController extends Controller {
         ItemPanier::where('panier_id', $user->panier_id)->whereNotIn('id', $touched_items)->delete();
         return $user->panier;
     }
+
+
+    public function complete(){
+        $user = auth()->user();
+        $panier = $user->panier;
+        $panier->status_id = Status::where('code','waiting_list')->first()->id;
+        $panier->save();
+    }
 }

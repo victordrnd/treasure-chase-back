@@ -58,18 +58,29 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'cart'], function(){
         Route::get('/',         [PanierController::class, 'show']);
         Route::post('/',        [PanierController::class, 'saveCart']);
+        Route::get('/complete', [PanierController::class, 'complete']);
     });
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin']], function () {
-    Route::get("users", [UserScanController::class, 'getAll']);
     Route::post('upload/pumpkin',   [AdminController::class, 'upload']);
     Route::get('pumpkin/stats',    [AdminController::class, 'getCountByDate']);
     Route::get('billets',       [AdminController::class,    'getBillets']);//->middleware('date:2021-10-06 16:00');
-
+    
     Route::group(['prefix' => 'events'], function () {
         Route::get('/', [EventController::class, "list"]);
         Route::get('/{id}', [EventController::class, "show"])->where('id', '[0-9]+');;
         Route::post('/', [EventController::class, "store"]);
     });
+    
+    Route::group(['prefix' => 'cart'], function(){
+        Route::get('/{user_id}',        [AdminController::class,"showCart"])->where('id', '[0-9]+');
+    });
+    
+    
+    Route::group(['prefix' => 'users'], function(){
+        Route::get("/", [UserScanController::class, 'getAll']);
+        Route::post('/',[AdminController::class, "updateUser"]);
+    });
+
 });

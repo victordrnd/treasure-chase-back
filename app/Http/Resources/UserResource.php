@@ -24,7 +24,9 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'filiere' => $this->filiere,
             'is_cotisant' => $this->is_cotisant,
-            'total_to_pay' => 0,
+            'is_allowed' => $this->is_allowed,
+            'is_bde' => $this->is_bde,
+            'total_to_pay' => $this->panier->price ?? 0,
             'total_paid' => $billet->montant ?? 0,
             'date_paiement' => $billet->date ?? null
         ];

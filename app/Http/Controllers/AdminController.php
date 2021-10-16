@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollectionResource;
 use App\Imports\PumpkinsImport;
+use App\Models\Panier;
 use App\Models\Pumkin;
 use App\Models\Pumpkin;
 use App\Models\User;
@@ -35,5 +36,22 @@ class AdminController extends Controller
 
     public function getBillets(){
         return new UserCollectionResource(User::all());
+    }
+
+    public function showCart($user_id){
+        return Panier::where('id', User::find($user_id)->panier_id)->with('items', 'status')->firstOrFail();
+    }
+
+
+    public function updateUser(Request $req){
+        $user = User::find($req->id);
+        $user->fill($req->all());
+        $user->save();
+        return $user->makeVisible(['email']);
+    }
+
+
+    public function changePanierStatus(Request $req){
+        
     }
 }

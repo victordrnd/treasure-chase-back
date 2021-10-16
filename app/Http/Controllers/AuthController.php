@@ -26,7 +26,7 @@ class AuthController extends Controller {
   public function register(RegisterRequest $request) {
     $password = $request->password;
     $request->merge(['password' => Hash::make($request->password)]);
-    $user = new User($request->all());
+    $user = new User($request->only('firstname',' lastname', 'email', 'password', 'filiere', 'phone'));
     $user->save();
 
     $credentials = [
