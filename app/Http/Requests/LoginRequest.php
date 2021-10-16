@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
             'email' => 'required|email',
             'password' => 'required|string',
             'is_admin' => 'sometimes|integer',
-            'recaptcha_token' => 'required|string|recaptcha:login,0.7'
+            'recaptcha_token' => 'required|string|recaptcha:login,0.6'
         ];
     }
 }
