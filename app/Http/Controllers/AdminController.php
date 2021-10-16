@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollectionResource;
+use App\Http\Resources\UserResource;
 use App\Imports\PumpkinsImport;
 use App\Models\Panier;
 use App\Models\Pumkin;
@@ -47,7 +48,7 @@ class AdminController extends Controller
         $user = User::find($req->id);
         $user->fill($req->all());
         $user->save();
-        return $user->makeVisible(['email']);
+        return new UserResource($user);
     }
 
 
