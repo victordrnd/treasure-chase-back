@@ -11,10 +11,12 @@ use App\Models\Panier;
 use App\Models\Period;
 use App\Models\Status;
 use Carbon\Carbon;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
-
+use GuzzleHttp\Pool;
+use Illuminate\Http\Client\Pool as ClientPool;
 class PanierController extends Controller {
 
     public function show() {
@@ -73,25 +75,17 @@ class PanierController extends Controller {
 
 
     public function sendNotification(SendNotificationRequest $req) {
-        $user = auth()->user();
+        $user = auth()->user()->makeVisible(['email']);
         if ($user->panier->status->code == 'waiting_paiement') {
-            $client = new Client();
-            $request = new \GuzzleHttp\Psr7\Request(
-                "POST",
-                "https://pumpkin.black-pinthere.fr/pay",
-                [
-                    'content-type' => 'application/json',
-                    'Accept' => 'application/json'
-                ],
-                json_encode(
-                    [
-                        'user' => $user,
-                        'price' => $user->panier->price
-                    ]
-                )
-            );
-            $response = $client->send($request, ['timeout' => 20]);
-            return $response;
+            $responses = Http::pool(fn (ClientPool $pool) => [
+                $pool->withOptions([
+                    'timeout' => 2,
+                ])->post('https://pumpkin.black-pinthere.fr/pay', [
+                    'user' => json_encode($user),
+                    'price' => $user->panier->price,
+                ])
+            ]);
+            return $responses;
         }
         return ['error' => "Vous n'avez pas la permission d'exécuter cette action"];
     }
