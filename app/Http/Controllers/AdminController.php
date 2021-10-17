@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\Console\Input\Input;
+use Illuminate\Support\Str;
+use SMSFactor\Laravel\Facade\Message;
 
 class AdminController extends Controller
 {
@@ -51,6 +53,23 @@ class AdminController extends Controller
         return new UserResource($user);
     }
 
+    public function resetPassword(Request $req){
+        $user = User::find($req->user_id);
+        $token = Str::random(20);
+        $user->token = $token;
+        $user->save();
+        return ['token' => $token];
+    }
+
+    public function sendSms(Request $req){
+        $user = User::find($req->user_id);
+        return Message::send([
+            'to' => '0611286286',
+            'text' => "Black Pinthère\n Ton mot de passe a été réinitialisé, voici le lien pour le définir :\n https://black-pinthere.fr/password-reset/".$user->token,
+            'pushtype' => 'alert',
+            'sender' => 'BDE CPE'
+        ]);
+    }
 
     public function changePanierStatus(Request $req){
         

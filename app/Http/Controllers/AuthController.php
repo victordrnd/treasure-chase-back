@@ -60,7 +60,7 @@ class AuthController extends Controller {
 
 
   private function formatToken($credentials) {
-    if (!$token = auth()->setTTL(525600)->attempt($credentials)) {
+    if (!$token = auth()->setTTL(120)->attempt($credentials)) {
       return response()->json(['error' => 'Unauthorized'], 401);
     }
     $data =  [

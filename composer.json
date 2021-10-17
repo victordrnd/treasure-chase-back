@@ -15,9 +15,10 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
-        "victordrnd/laravel-recaptcha-v3" : "2.*",
         "sentry/sentry-laravel": "^2.9",
-        "tymon/jwt-auth": "^1.0"
+        "smsfactor/smsfactor-laravel": "^1.1",
+        "tymon/jwt-auth": "^1.0",
+        "victordrnd/laravel-recaptcha-v3": "2.*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -15,20 +15,22 @@ class PumpkinsImport implements ToCollection {
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function collection($rows) {
-        \DB::transaction(function() use ($rows){
+        \DB::transaction(function () use ($rows) {
             Pumpkin::where('id', '>', 0)->delete();
             foreach ($rows as $row) {
-                if (count($row) > 7) {
+                if (count($row) > 6) {
                     if ($row[1] == "SUCCEEDED") {
-                        if(Pumpkin::where('email', $row[7])->exists()){
+                        if (Pumpkin::where('email', $row[7])->exists()) {
                             Pumpkin::where('email', $row[7])->first()->increment('montant', intval($row[2]));
-                        }else{
+                        } else {
+                            $phone = str_replace("33", "0", $row[8]);
+                            $phone = str_replace("+", "", $phone);
                             Pumpkin::create([
-                                'montant' => intval($row[5]),
+                                'montant' => intval($row[2]),
                                 'firstname' => $row[5],
                                 'lastname' => $row[6],
                                 'email' => $row[7],
-                                'phone' => str_replace("33","0",$row[8]),
+                                'phone' => $phone,
                                 'date' => Carbon::createFromFormat('d/m/Y H:i:s', $row[0])->toDateString()
                             ]);
                         }

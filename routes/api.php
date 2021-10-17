@@ -81,6 +81,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin
     Route::group(['prefix' => 'users'], function(){
         Route::get("/", [UserScanController::class, 'getAll']);
         Route::post('/',[AdminController::class, "updateUser"]);
+        Route::post('/reset-password', [AdminController::class, 'resetPassword']);
+        Route::post('/sendsms',        [AdminController::class, 'sendSms']);
     });
 
 });
