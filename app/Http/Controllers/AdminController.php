@@ -72,8 +72,11 @@ class AdminController extends Controller
         ]);
     }
 
-    public function changePanierStatus(Request $req){
-        
+    public function confirmCart(Request $req){
+        $user = User::find($req->user_id);
+        $user->panier->status_id = Status::where('code', 'finished')->first()->id;
+        $user->panier->save();
+        return new UserResource($user);
     }
 
 

@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin
     
     Route::group(['prefix' => 'cart'], function(){
         Route::get('/{user_id}',        [AdminController::class,"showCart"])->where('id', '[0-9]+');
+        Route::post('/confirm',         [AdminController::class, "confirmCart"]);
     });
     
     
