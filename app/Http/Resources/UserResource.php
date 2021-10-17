@@ -28,7 +28,10 @@ class UserResource extends JsonResource
             'is_bde' => $this->is_bde,
             'total_to_pay' => $this->panier->price ?? 0,
             'total_paid' => $billet->montant ?? 0,
-            'date_paiement' => $billet->date ?? null
+            'date_paiement' => $billet->date ?? null,
+            'status' => $this->whenLoaded('panier', function(){
+                return $this->panier->status;
+            })
         ];
     }
 }

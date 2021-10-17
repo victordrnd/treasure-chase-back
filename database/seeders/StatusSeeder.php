@@ -25,6 +25,11 @@ class StatusSeeder extends Seeder
         ]);
 
         Status::create([
+            'label' => "En attente de paiement",
+            'code' => 'waiting_paiement',
+        ]);
+
+        Status::create([
             'label' => 'Terminée',
             'code' => 'finished',
         ]);

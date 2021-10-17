@@ -8,6 +8,7 @@ use App\Imports\PumpkinsImport;
 use App\Models\Panier;
 use App\Models\Pumkin;
 use App\Models\Pumpkin;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -73,5 +74,10 @@ class AdminController extends Controller
 
     public function changePanierStatus(Request $req){
         
+    }
+
+
+    public function listStatus(){
+        return Status::all();
     }
 }

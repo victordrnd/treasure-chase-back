@@ -19,7 +19,7 @@ class Panier extends Model
         if($user->is_bde){
             $total += 250;
         }else{
-            $total += $user->is_cotisant ? 335 : 375;
+            $total += $user->is_cotisant ? 340 : 380;
         }
 
         foreach($this->items as $item){

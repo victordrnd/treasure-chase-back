@@ -18,8 +18,7 @@ class AuthController extends Controller {
         return response()->json(['error' => 'Unauthorized'], 401);
       }
     }
-    $data = $this->formatToken($credentials);
-    return response()->json($data);
+    return $this->formatToken($credentials);
   }
 
 
