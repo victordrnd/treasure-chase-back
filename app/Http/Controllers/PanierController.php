@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompletePanierRequest;
 use App\Http\Requests\CreatePanierRequest;
 use App\Http\Requests\SaveCartRequest;
+use App\Http\Requests\SendNotificationRequest;
 use App\Models\ItemPanier;
 use App\Models\Panier;
 use App\Models\Period;
 use App\Models\Status;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 class PanierController extends Controller {
 
     public function show() {
-        return Panier::where('id', auth()->user()->panier_id)->with('items')->firstOrFail();
+        return Panier::where('id', auth()->user()->panier_id)->with('items', 'status')->firstOrFail();
     }
 
     public function saveCart(SaveCartRequest $req) {
@@ -45,7 +49,7 @@ class PanierController extends Controller {
     public function complete() {
         $user = auth()->user();
         if ($user->is_bde || $user->is_liste) {
-            $date = Carbon::parse("2021-11-05 12:00:00");
+            $date = Carbon::parse("2020-11-05 12:00:00");
         } else {
             $date = Carbon::parse("2021-11-08 20:00:00");
         }
@@ -60,10 +64,35 @@ class PanierController extends Controller {
             $code = 'waiting_list';
         }
         $panier = $user->panier;
-        if($panier->status->code == 'unfinished'){
+        if ($panier->status->code == 'unfinished') {
             $panier->completed_at = Carbon::now()->toDateTimeString();
         }
         $panier->status_id = Status::where('code', $code)->first()->id;
         $panier->save();
+    }
+
+
+    public function sendNotification(SendNotificationRequest $req) {
+        $user = auth()->user();
+        if ($user->panier->status->code == 'waiting_paiement') {
+            $client = new Client();
+            $request = new \GuzzleHttp\Psr7\Request(
+                "POST",
+                "https://pumpkin.black-pinthere.fr/pay",
+                [
+                    'content-type' => 'application/json',
+                    'Accept' => 'application/json'
+                ],
+                json_encode(
+                    [
+                        'user' => $user,
+                        'price' => $user->panier->price
+                    ]
+                )
+            );
+            $response = $client->send($request, ['timeout' => 20]);
+            return $response;
+        }
+        return ['error' => "Vous n'avez pas la permission d'exécuter cette action"];
     }
 }

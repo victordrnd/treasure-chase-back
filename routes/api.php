@@ -28,8 +28,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'auth', 'middleware' => 'throttle:15,1'], function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);//->middleware('date:2021-11-01 12:00');
+    Route::post('register', [AuthController::class, 'register']);//->middleware('date:2021-11-01 12:00');
     Route::post('password-reset', [AuthController::class, 'passwordReset']);
     Route::get('/token/{token}', [AuthController::class,  'getUserFromPasswordResetToken']);
 });
@@ -42,8 +42,7 @@ Route::group(['prefix' => 'user_scans'], function () {
 Route::group(['prefix' => 'user_events'], function () {
     Route::post('/', [UserEventController::class, 'store']);
 });
-
-
+Route::get('/events', [EventController::class, "list"]);
 
 
 Route::group(['middleware' => 'jwt.verify'], function () {
@@ -58,14 +57,16 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'cart'], function(){
         Route::get('/',         [PanierController::class, 'show']);
         Route::post('/',        [PanierController::class, 'saveCart']);
-        Route::get('/complete', [PanierController::class, 'complete'])->middleware('date:2021-11-05 12:00');
+        Route::get('/complete', [PanierController::class, 'complete']);
+        Route::post('/pay',    [PanierController::class, 'sendNotification']);
     });
 });
 Route::get("/status",           [AdminController::class, 'listStatus']);
+
 Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin']], function () {
     Route::post('upload/pumpkin',   [AdminController::class, 'upload']);
-    Route::get('pumpkin/stats',    [AdminController::class, 'getCountByDate']);
-    Route::get('billets',       [AdminController::class,    'getBillets']);//->middleware('date:2021-10-06 16:00');
+    Route::get('pumpkin/stats',     [AdminController::class, 'getCountByDate']);
+    Route::get('billets',           [AdminController::class, 'getBillets']);
     Route::get("/status",           [AdminController::class, 'listStatus']);
     
     Route::group(['prefix' => 'events'], function () {
