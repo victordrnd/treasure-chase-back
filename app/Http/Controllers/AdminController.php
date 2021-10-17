@@ -54,6 +54,11 @@ class AdminController extends Controller
         return new UserResource($user);
     }
 
+    public function getUser($id){
+        $user = User::find($id);
+        return new UserResource($user);
+    }
+
     public function resetPassword(Request $req){
         $user = User::find($req->user_id);
         $token = Str::random(20);

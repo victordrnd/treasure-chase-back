@@ -58,7 +58,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'cart'], function(){
         Route::get('/',         [PanierController::class, 'show']);
         Route::post('/',        [PanierController::class, 'saveCart']);
-        Route::get('/complete', [PanierController::class, 'complete']);
+        Route::get('/complete', [PanierController::class, 'complete'])->middleware('date:2021-11-05 12:00');
     });
 });
 Route::get("/status",           [AdminController::class, 'listStatus']);
@@ -82,7 +82,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin
     
     Route::group(['prefix' => 'users'], function(){
         Route::get("/", [UserScanController::class, 'getAll']);
-        Route::post('/',[AdminController::class, "updateUser"]);
+        Route::get('/{id}',            [AdminController::class, "getUser"]);
+        Route::post('/',               [AdminController::class, "updateUser"]);
         Route::post('/reset-password', [AdminController::class, 'resetPassword']);
         Route::post('/sendsms',        [AdminController::class, 'sendSms']);
     });

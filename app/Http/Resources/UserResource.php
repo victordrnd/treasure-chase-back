@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'is_cotisant' => $this->is_cotisant,
             'is_allowed' => $this->is_allowed,
             'is_bde' => $this->is_bde,
+            'is_liste' => $this->is_liste,
             'total_to_pay' => $this->panier->price ?? 0,
             'total_paid' => $billet->montant ?? 0,
             'date_paiement' => $billet->date ?? null,
