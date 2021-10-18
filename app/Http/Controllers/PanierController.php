@@ -6,6 +6,7 @@ use App\Http\Requests\CompletePanierRequest;
 use App\Http\Requests\CreatePanierRequest;
 use App\Http\Requests\SaveCartRequest;
 use App\Http\Requests\SendNotificationRequest;
+use App\Http\Resources\UserResource;
 use App\Models\ItemPanier;
 use App\Models\Panier;
 use App\Models\Period;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use Illuminate\Http\Client\Pool as ClientPool;
+
 class PanierController extends Controller {
 
     public function show() {
@@ -62,6 +64,8 @@ class PanierController extends Controller {
         $waiting_paiement = Panier::where('status_id', Status::where('code', 'waiting_paiement')->first()->id)->count();
         if (($finished + $waiting_paiement) < 350) {
             $code = 'waiting_paiement';
+            $user->is_allowed = true;
+            $user->save();
         } else {
             $code = 'waiting_list';
         }
@@ -69,8 +73,10 @@ class PanierController extends Controller {
         if ($panier->status->code == 'unfinished') {
             $panier->completed_at = Carbon::now()->toDateTimeString();
         }
-        $panier->status_id = Status::where('code', $code)->first()->id;
+        $status = Status::where('code', $code)->first();
+        $panier->status_id = $status->id;
         $panier->save();
+        return $status;
     }
 
 
@@ -80,13 +86,24 @@ class PanierController extends Controller {
             $responses = Http::pool(fn (ClientPool $pool) => [
                 $pool->withOptions([
                     'timeout' => 2,
-                ])->post('https://pumpkin.black-pinthere.fr/pay', [
+                ])->post('https://pumpkin.black-pinthere.fr/payout_cart', [
                     'user' => json_encode($user),
                     'price' => $user->panier->price,
                 ])
             ]);
             return $responses;
         }
-        return ['error' => "Vous n'avez pas la permission d'exécuter cette action"];
+        return response()->json(['error' => "Vous n'avez pas la permission d'exécuter cette action"], 401);
+    }
+
+
+    public function getPosition() {
+        $user = auth()->user();
+        $panier = $user->panier;
+        if ($panier->status->code == "waiting_list") {
+            $position = Panier::where('completed_at', '<', $panier->completed_at)->where('status_id', Status::where('code', 'waiting_list')->first()->id)->count();
+            return $position + 1;
+        }
+        return response()->json(['error' => "Vous n'êtes pas en file d'attente"], 401);
     }
 }

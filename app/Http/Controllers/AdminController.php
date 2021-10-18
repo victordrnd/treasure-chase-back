@@ -10,6 +10,7 @@ use App\Models\Pumkin;
 use App\Models\Pumpkin;
 use App\Models\Status;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\Console\Input\Input;
@@ -69,23 +70,29 @@ class AdminController extends Controller
 
     public function sendSms(Request $req){
         $user = User::find($req->user_id);
-        return Message::send([
+        Message::send([
             'to' => '0611286286',
-            'text' => "Black Pinthère\n Ton mot de passe a été réinitialisé, voici le lien pour le définir :\n https://black-pinthere.fr/password-reset/".$user->token,
+            'text' => "Black Pinthère\nTon mot de passe a été réinitialisé, voici le lien pour le définir :\nhttps://black-pinthere.fr/password-reset/".$user->token,
             'pushtype' => 'alert',
             'sender' => 'BDE CPE'
         ]);
+        return $user;
     }
 
     public function confirmCart(Request $req){
         $user = User::find($req->user_id);
         $user->panier->status_id = Status::where('code', 'finished')->first()->id;
+        if(is_null($user->panier->completed_at)){
+            $user->panier->completed_at = Carbon::now()->toDateTimeString();
+        }
         $user->panier->save();
         return new UserResource($user);
     }
 
 
     public function listStatus(){
-        return Status::all();
+        return Cache::rememberForever('status', function () {
+            return Status::all();
+        });
     }
 }
