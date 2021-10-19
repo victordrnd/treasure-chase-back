@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompletePanierRequest;
 use App\Http\Requests\CreatePanierRequest;
 use App\Http\Requests\SaveCartRequest;
+use App\Http\Requests\SaveUserDetailsRequest;
 use App\Http\Requests\SendNotificationRequest;
 use App\Http\Resources\UserResource;
 use App\Models\ItemPanier;
@@ -23,6 +24,13 @@ class PanierController extends Controller {
 
     public function show() {
         return Panier::where('id', auth()->user()->panier_id)->with('items', 'status')->firstOrFail();
+    }
+
+    public function saveDetails(SaveUserDetailsRequest $req){
+        $user = auth()->user();
+        $user->fill($req->only('poids', 'pointure', 'taille', 'is_surf'));
+        $user->save();
+        return $user;
     }
 
     public function saveCart(SaveCartRequest $req) {

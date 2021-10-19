@@ -63,6 +63,10 @@ Route::group(['middleware' => 'throttle:100,1'], function () {
             Route::post('/pay',    [PanierController::class, 'sendNotification']);
             Route::get('/position', [PanierController::class, 'getPosition']);
         });
+
+        Route::group(['prefix' => 'details'],function(){
+            Route::post('/',        [PanierController::class, 'saveDetails']);
+        });
     });
     Route::get("/status",           [AdminController::class, 'listStatus']);
 

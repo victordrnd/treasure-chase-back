@@ -27,7 +27,7 @@ class AssuranceSeeder extends Seeder
         ]);
 
         Assurance::create([
-            'label' => 'Assurance tout compris',
+            'label' => 'Assurance Tout compris',
             'price' => 30,
             'code' => 'full'
         ]);

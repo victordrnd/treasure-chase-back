@@ -15,19 +15,19 @@ class FoodPackSeeder extends Seeder
     public function run()
     {
         FoodPack::create([
-            'label'=>'Classique',
+            'label'=>'Pack nourriture classique',
             'code' => 'classic',
             'price' => 55
         ]);
 
         FoodPack::create([
-            'label'=> 'Hallal',
+            'label'=> 'Pack nourriture classique Hallal',
             'code' => 'hallal',
             'price'=> 63
         ]);
 
         FoodPack::create([
-            'label'=> 'Veggie',
+            'label'=> 'Pack nourriture classique Veggie',
             'code' => 'veggie',
             'price'=> 63
         ]);
