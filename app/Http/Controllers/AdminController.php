@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\Console\Input\Input;
 use Illuminate\Support\Str;
 use SMSFactor\Laravel\Facade\Message;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {

@@ -24,7 +24,8 @@ class SendNotificationRequest extends FormRequest
     public function rules()
     {
         return [
-            'recaptcha_token' => 'required|string|recaptcha:notif_pumpkin,0.6'
+            'recaptcha_token' => 'required|string|recaptcha:notif_pumpkin,0.6',
+            'two_time' => 'required|boolean'
         ];
     }
 }

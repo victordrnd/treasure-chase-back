@@ -53,16 +53,16 @@ class PanierController extends Controller {
     public function complete() {
         $user = auth()->user();
         if ($user->is_bde || $user->is_liste) {
-            $date = Carbon::parse("2020-11-05 12:00:00");
+            $date = Carbon::parse("2021-11-05 12:00:00");
         } else {
             $date = Carbon::parse("2021-11-08 20:00:00");
         }
         if ($date > Carbon::now()) {
             return response()->json(['error' => "Le service sera accessible " . $date->diffForHumans()], 401);
         }
-        $finished = Panier::where('status_id', Status::where('code', 'finished')->first()->id)->count();
-        $waiting_paiement = Panier::where('status_id', Status::where('code', 'waiting_paiement')->first()->id)->count();
-        if (($finished + $waiting_paiement) < 350) {
+        $status_ids = Status::whereIn('code', ['finished', 'waiting_paiement', 'waiting_second_paiement'])->get()->pluck("id");
+        $count = Panier::whereIn('status_id', $status_ids)->count();
+        if ($count < 350) {
             $code = 'waiting_paiement';
             $user->is_allowed = true;
             $user->save();
@@ -82,13 +82,13 @@ class PanierController extends Controller {
 
     public function sendNotification(SendNotificationRequest $req) {
         $user = auth()->user()->makeVisible(['email']);
-        if ($user->panier->status->code == 'waiting_paiement') {
+        if (in_array($user->panier->status->code, ['waiting_paiement', 'waiting_second_paiement']) && $user->is_allowed) {
             $responses = Http::pool(fn (ClientPool $pool) => [
                 $pool->withOptions([
                     'timeout' => 2,
                 ])->post('https://pumpkin.black-pinthere.fr/payout_cart', [
                     'user' => json_encode($user),
-                    'price' => $user->panier->price,
+                    'price' => ($req->two_time || $user->panier->status->code == "waiting_second_paiement") ? $user->panier->price / 2 : $user->panier->price,
                 ])
             ]);
             return $responses;

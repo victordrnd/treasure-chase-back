@@ -21,29 +21,34 @@ class PumpkinsImport implements ToCollection {
         \DB::transaction(function () use ($rows) {
             Pumpkin::where('id', '>', 0)->delete();
             foreach ($rows as $row) {
-                if (count($row) > 6) {
-                    if ($row[1] == "SUCCEEDED") {
-                        if (Pumpkin::where('email', $row[7])->exists()) {
-                            $pumpkin = Pumpkin::where('email', $row[7])->first();
-                            $pumpkin->increment('montant', intval($row[2]));
+                if (count($row) > 11) {
+                    if ($row[1] == "Payée") {
+                        if (Pumpkin::where('email', $row[11])->exists()) {
+                            $pumpkin = Pumpkin::where('email', $row[11])->first();
+                            $pumpkin->increment('montant', intval($row[5]));
                         } else {
-                            $phone = str_replace("33", "0", $row[8]);
-                            $phone = str_replace("+", "", $phone);
                             $pumpkin = Pumpkin::create([
-                                'montant' => intval($row[2]),
-                                'firstname' => $row[5],
-                                'lastname' => $row[6],
-                                'email' => $row[7],
-                                'phone' => $phone,
+                                'montant' => intval($row[5]),
+                                'firstname' => $row[8],
+                                'lastname' => $row[7],
+                                'email' => $row[11],
+                                'phone' => $row[9],
                                 'date' => Carbon::createFromFormat('d/m/Y H:i:s', $row[0])->toDateString()
                             ]);
                         }
                         $user = User::where('email', $pumpkin->email)->first();
                         if(!is_null($user)){
-                            if($pumpkin->montant == $user->panier->price){
-                                Panier::where('id', $user->panier_id)->update([
-                                    'status_id' => Status::where('code', 'finished')->first()->id
-                                ]);
+                            if(!is_null($user->panier)){
+
+                                if($pumpkin->montant >= $user->panier->price-1){
+                                    Panier::where('id', $user->panier_id)->update([
+                                        'status_id' => Status::where('code', 'finished')->first()->id
+                                    ]);
+                                }else if ($pumpkin->montant > 20 && $pumpkin->montant < $user->panier->price){
+                                    Panier::where('id', $user->panier_id)->update([
+                                        'status_id' => Status::where('code', 'waiting_second_paiement')->first()->id
+                                    ]);
+                                }
                             }
                         }
                     }

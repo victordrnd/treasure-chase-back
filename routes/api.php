@@ -27,67 +27,69 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['prefix' => 'auth', 'middleware' => 'throttle:15,1'], function () {
-    Route::post('login', [AuthController::class, 'login']);//->middleware('date:2021-11-01 12:00');
-    Route::post('register', [AuthController::class, 'register']);//->middleware('date:2021-11-01 12:00');
-    Route::post('password-reset', [AuthController::class, 'passwordReset']);
-    Route::get('/token/{token}', [AuthController::class,  'getUserFromPasswordResetToken']);
-});
+Route::group(['middleware' => 'throttle:100,1'], function () {
 
-//UserScan
-Route::group(['prefix' => 'user_scans'], function () {
-    Route::post('/', [UserScanController::class, 'store']);
-});
-
-Route::group(['prefix' => 'user_events'], function () {
-    Route::post('/', [UserEventController::class, 'store']);
-});
-Route::get('/events', [EventController::class, "list"]);
-
-
-Route::group(['middleware' => 'jwt.verify'], function () {
     Route::group(['prefix' => 'auth'], function () {
-        Route::get('current', [AuthController::class, 'getCurrentUser']);
+        Route::post('login', [AuthController::class, 'login']); //->middleware('date:2021-11-01 12:00');
+        Route::post('register', [AuthController::class, 'register']); //->middleware('date:2021-11-01 12:00');
+        Route::post('password-reset', [AuthController::class, 'passwordReset']);
+        Route::get('/token/{token}', [AuthController::class,  'getUserFromPasswordResetToken']);
     });
 
-    Route::group(['prefix' => 'materiels'], function(){
-        Route::get('/',         [MaterielController::class, 'list']);
+    //UserScan
+    Route::group(['prefix' => 'user_scans'], function () {
+        Route::post('/', [UserScanController::class, 'store']);
     });
 
-    Route::group(['prefix' => 'cart'], function(){
-        Route::get('/',         [PanierController::class, 'show']);
-        Route::post('/',        [PanierController::class, 'saveCart']);
-        Route::get('/complete', [PanierController::class, 'complete']);
-        Route::post('/pay',    [PanierController::class, 'sendNotification'])->middleware('throttle:4,1');
-        Route::get('/position', [PanierController::class, 'getPosition']);
+    Route::group(['prefix' => 'user_events'], function () {
+        Route::post('/', [UserEventController::class, 'store']);
     });
-});
-Route::get("/status",           [AdminController::class, 'listStatus']);
+    Route::get('/events', [EventController::class, "list"]);
 
-Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin']], function () {
-    Route::post('upload/pumpkin',   [AdminController::class, 'upload']);
-    Route::get('pumpkin/stats',     [AdminController::class, 'getCountByDate']);
-    Route::get('billets',           [AdminController::class, 'getBillets']);
+
+    Route::group(['middleware' => 'jwt.verify'], function () {
+        Route::group(['prefix' => 'auth'], function () {
+            Route::get('current', [AuthController::class, 'getCurrentUser']);
+        });
+
+        Route::group(['prefix' => 'materiels'], function () {
+            Route::get('/',         [MaterielController::class, 'list']);
+        });
+
+        Route::group(['prefix' => 'cart'], function () {
+            Route::get('/',         [PanierController::class, 'show']);
+            Route::post('/',        [PanierController::class, 'saveCart']);
+            Route::get('/complete', [PanierController::class, 'complete']);
+            Route::post('/pay',    [PanierController::class, 'sendNotification']);
+            Route::get('/position', [PanierController::class, 'getPosition']);
+        });
+    });
     Route::get("/status",           [AdminController::class, 'listStatus']);
-    
-    Route::group(['prefix' => 'events'], function () {
-        Route::get('/', [EventController::class, "list"]);
-        Route::get('/{id}', [EventController::class, "show"])->where('id', '[0-9]+');;
-        Route::post('/', [EventController::class, "store"]);
-    });
-    
-    Route::group(['prefix' => 'cart'], function(){
-        Route::get('/{user_id}',        [AdminController::class,"showCart"])->where('id', '[0-9]+');
-        Route::post('/confirm',         [AdminController::class, "confirmCart"]);
-    });
-    
-    
-    Route::group(['prefix' => 'users'], function(){
-        Route::get("/", [UserScanController::class, 'getAll']);
-        Route::get('/{id}',            [AdminController::class, "getUser"]);
-        Route::post('/',               [AdminController::class, "updateUser"]);
-        Route::post('/reset-password', [AdminController::class, 'resetPassword']);
-        Route::post('/sendsms',        [AdminController::class, 'sendSms'])->middleware('throttle:4,1');
-    });
 
+    Route::group(['prefix' => 'admin', 'middleware' => ['jwt.verify', 'auth.is_admin']], function () {
+        Route::post('upload/pumpkin',   [AdminController::class, 'upload']);
+        Route::get('pumpkin/stats',     [AdminController::class, 'getCountByDate']);
+        Route::get('billets',           [AdminController::class, 'getBillets']);
+        Route::get("/status",           [AdminController::class, 'listStatus']);
+
+        Route::group(['prefix' => 'events'], function () {
+            Route::get('/', [EventController::class, "list"]);
+            Route::get('/{id}', [EventController::class, "show"])->where('id', '[0-9]+');;
+            Route::post('/', [EventController::class, "store"]);
+        });
+
+        Route::group(['prefix' => 'cart'], function () {
+            Route::get('/{user_id}',        [AdminController::class, "showCart"])->where('id', '[0-9]+');
+            Route::post('/confirm',         [AdminController::class, "confirmCart"]);
+        });
+
+
+        Route::group(['prefix' => 'users'], function () {
+            Route::get("/", [UserScanController::class, 'getAll']);
+            Route::get('/{id}',            [AdminController::class, "getUser"]);
+            Route::post('/',               [AdminController::class, "updateUser"]);
+            Route::post('/reset-password', [AdminController::class, 'resetPassword']);
+            Route::post('/sendsms',        [AdminController::class, 'sendSms']);
+        });
+    });
 });
