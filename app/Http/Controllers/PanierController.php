@@ -83,14 +83,16 @@ class PanierController extends Controller {
     public function sendNotification(SendNotificationRequest $req) {
         $user = auth()->user()->makeVisible(['email']);
         if (in_array($user->panier->status->code, ['waiting_paiement', 'waiting_second_paiement']) && $user->is_allowed) {
-            $responses = Http::pool(fn (ClientPool $pool) => [
-                $pool->withOptions([
-                    'timeout' => 2,
-                ])->post('https://pumpkin.black-pinthere.fr/payout_cart', [
-                    'user' => json_encode($user),
-                    'price' => ($req->two_time || $user->panier->status->code == "waiting_second_paiement") ? $user->panier->price / 2 : $user->panier->price,
-                ])
-            ]);
+            $responses = Http::pool(function (ClientPool $pool) {
+                [
+                    $pool->withOptions([
+                        'timeout' => 2,
+                    ])->post('https://pumpkin.black-pinthere.fr/payout_cart', [
+                        'user' => json_encode($user),
+                        'price' => ($req->two_time || $user->panier->status->code == "waiting_second_paiement") ? $user->panier->price / 2 : $user->panier->price,
+                    ])
+                ];
+            });
             return $responses;
         }
         return response()->json(['error' => "Vous n'avez pas la permission d'exécuter cette action"], 401);
