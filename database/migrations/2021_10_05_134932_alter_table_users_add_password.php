@@ -15,6 +15,9 @@ class AlterTableUsersAddPassword extends Migration
     {
         \DB::statement('CREATE TABLE user_scans LIKE users');
         \DB::statement('INSERT user_scans SELECT * FROM users');
+        \DB::statement('DELETE FROM users');
+        \DB::statement('DELETE FROM users');
+        \DB::statement('ALTER TABLE users AUTO_INCREMENT = 1');
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->after('email')->nullable();
             //$table->string('filiere',18)->after('password');
