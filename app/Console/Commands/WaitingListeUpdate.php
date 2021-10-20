@@ -68,7 +68,6 @@ class WaitingListeUpdate extends Command {
                 // ]);
                 error_log("Envoie d'une notification à : ". $panier->user->firstname . " " . $panier->user->lastname);
             } catch (\Exception $e) {
-                error_log(json_encode($panier));
                 error_log(sprintf("\033[31m%s\033[0m", "ERROR : " . $panier->user['firstname'] . " " . $panier->user['lastname'] . " " . $e->getMessage()));
             }
         }
