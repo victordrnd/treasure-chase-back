@@ -61,7 +61,7 @@ class PanierController extends Controller {
     public function complete() {
         $user = auth()->user();
         if ($user->is_bde || $user->is_liste) {
-            $date = Carbon::parse("2020-11-05 12:00:00");
+            $date = Carbon::parse("2021-11-05 12:00:00");
         } else {
             $date = Carbon::parse("2021-11-08 20:00:00");
         }
