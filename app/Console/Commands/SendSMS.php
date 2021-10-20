@@ -46,7 +46,7 @@ class SendSMS extends Command {
             try {
                 // Message::send([
                 //     'to' => $user->phone,
-                //     'text' => "Black Pinthère\nVoici le lien pour récupérer ton compte cotisant :\nhttps://black-pinthere.fr/password-reset/".$user->token,
+                //     'text' => "Black Pint'hère\nL'heure des inscriptions à la SkiWeek a sonné ! Récupères ton compte ici :\nhttps://black-pinthere.fr/password-reset/".$user->token,
                 //     'pushtype' => 'alert',
                 //     'sender' => 'BDE CPE'
                 // ]);
