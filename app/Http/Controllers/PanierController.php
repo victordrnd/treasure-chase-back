@@ -61,14 +61,14 @@ class PanierController extends Controller {
     public function complete() {
         $user = auth()->user();
         if ($user->is_bde || $user->is_liste) {
-            $date = Carbon::parse("2021-11-05 12:00:00");
+            $date = Carbon::parse("2020-11-05 12:00:00");
         } else {
             $date = Carbon::parse("2021-11-08 20:00:00");
         }
         if ($date > Carbon::now()) {
             return response()->json(['error' => "Le service sera accessible " . $date->diffForHumans()], 401);
         }
-        $status_ids = Status::whereIn('code', ['finished', 'waiting_paiement', 'waiting_second_paiement'])->get()->pluck("id");
+        $status_ids = Status::whereIn('code', ['finished', 'waiting_paiement', 'waiting_second_paiement'])->pluck("id");
         $count = Panier::whereIn('status_id', $status_ids)->count();
         if ($count < 350) {
             $code = 'waiting_paiement';
@@ -90,7 +90,7 @@ class PanierController extends Controller {
 
     public function sendNotification(SendNotificationRequest $req) {
         $user = auth()->user()->makeVisible(['email']);
-        if (in_array($user->panier->status->code, ['waiting_paiement', 'waiting_second_paiement']) && $user->is_allowed) {
+        if (in_array($user->panier->status->code, ['waiting_paiement', 'waiting_second_paiement'])) {
             $responses = Http::pool(function (ClientPool $pool) {
                 [
                     $pool->withOptions([

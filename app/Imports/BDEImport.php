@@ -15,12 +15,12 @@ class BDEImport implements ToCollection {
         \DB::transaction(function () use ($rows) {
             foreach ($rows as $row) {
                 User::firstOrCreate(
-                    ['email' => $row[3]],
+                    ['email' => $row[4]],
                     [
                         'lastname' => Str::of($row[0])->title(),
                         'firstname' => Str::of($row[1])->title(),
-                        'filiere' => "BDE",
-                        'phone' => str_replace(' ', '', $row[2]),
+                        'filiere' => trim($row[2]),
+                        'phone' => "0".str_replace(' ', '', $row[3]),
                         'is_bde' => true
                     ]
                 );

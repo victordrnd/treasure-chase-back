@@ -35,4 +35,8 @@ class Panier extends Model
     public function status(){
         return $this->belongsTo(Status::class);
     }
+
+    public function user(){
+        return $this->hasOne(User::class);
+    }
 }

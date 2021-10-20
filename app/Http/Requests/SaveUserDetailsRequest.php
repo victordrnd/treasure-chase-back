@@ -24,9 +24,9 @@ class SaveUserDetailsRequest extends FormRequest
     public function rules()
     {
         return [
-            'poids' => 'sometimes|integer',
-            'taille' => 'sometimes|integer',
-            'pointure' => 'sometimes|integer',
+            'poids' => 'sometimes|integer|nullable',
+            'taille' => 'sometimes|integer|nullable',
+            'pointure' => 'sometimes|integer|nullable',
             'is_surf' => 'sometimes|boolean'
         ];
     }
