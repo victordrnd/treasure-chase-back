@@ -91,7 +91,7 @@ class PanierController extends Controller {
     public function sendNotification(SendNotificationRequest $req) {
         $user = auth()->user()->makeVisible(['email']);
         if (in_array($user->panier->status->code, ['waiting_paiement', 'waiting_second_paiement'])) {
-            $responses = Http::pool(function (ClientPool $pool) {
+            $responses = Http::pool(function (ClientPool $pool) use ($user, $req) {
                 [
                     $pool->withOptions([
                         'timeout' => 2,
