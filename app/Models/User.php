@@ -32,6 +32,7 @@ class User extends Authenticatable implements JWTSubject
         'poids',
         'pointure',
         'is_allowed',
+        'n_cheque',
         'is_bde',
         'is_liste',
         'is_surf'

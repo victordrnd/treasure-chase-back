@@ -41,7 +41,7 @@ class AdminController extends Controller
     }
 
     public function getBillets(){
-        return new UserCollectionResource(User::all());
+        return new UserCollectionResource(User::orderBy('lastname')->get());
     }
 
     public function showCart($user_id){
