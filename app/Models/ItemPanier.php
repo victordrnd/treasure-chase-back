@@ -21,4 +21,5 @@ class ItemPanier extends Model
     public function getItemAttribute(){
         return $this->model_type::find($this->model_id);
     }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Http\Resources\UserCollectionResource;
 use App\Http\Resources\UserResource;
 use App\Imports\PumpkinsImport;
@@ -95,5 +96,14 @@ class AdminController extends Controller
         return Cache::rememberForever('status', function () {
             return Status::all();
         });
+    }
+
+
+    public function export(Request $req){
+        $filepath = Excel::store(new UsersExport(), 'public/export.xlsx', null, null,[
+            'visibility' => 'public'
+        ]);
+        $protocol = $req->secure() ? "https://" : "http://";
+        return ['path' => $protocol.$req->getHttpHost()."/storage/export.xlsx"];
     }
 }

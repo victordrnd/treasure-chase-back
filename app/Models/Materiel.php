@@ -18,4 +18,9 @@ class Materiel extends Model
     public function getModelAttribute(){
         return str_replace('App\\Models\\', '',self::class);
     }
+
+
+    public function category(){
+        return $this->belongsTo(MaterielCategory::class, "materiel_category_id");
+    }
 }

@@ -95,5 +95,7 @@ Route::group(['middleware' => 'throttle:100,1'], function () {
             Route::post('/reset-password', [AdminController::class, 'resetPassword']);
             Route::post('/sendsms',        [AdminController::class, 'sendSms']);
         });
+
+        Route::get('/export',              [AdminController::class, 'export']);
     });
 });
