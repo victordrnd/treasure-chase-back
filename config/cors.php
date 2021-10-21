@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://black-pinthere.fr', 'http://localhost:4200'],
+    'allowed_origins' => ['https://black-pinthere.fr', 'http://localhost:4200', 'https://dev.black-pinthere.fr'],
 
     'allowed_origins_patterns' => [],
 
