@@ -16,6 +16,7 @@ class UsersImport implements ToCollection {
         \DB::transaction(function () use ($rows) {
             foreach ($rows as $row) {
                 User::firstOrCreate(
+                    ['email' => $row[5]],
                     [
                         'email' => $row[5] ?? uniqid("cpe_")."@noemail.com",
                         'lastname' => Str::of($row[1])->title(),
