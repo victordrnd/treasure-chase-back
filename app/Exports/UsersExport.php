@@ -36,6 +36,7 @@ class UsersExport implements FromCollection
                 'Taille' => $panier->user->taille,
                 'Poids' => $panier->user->poids,
                 'Pointure' => $panier->user->pointure,
+                'BDE' => $panier->user->is_bde ? "Oui" : "Non",
                 'Cotisant' => $panier->user->is_cotisant ? "Oui" : "Non",
                 'Listeux' => $panier->user->is_liste ? "Oui" : "Non",
                 'N° Cheque' => $panier->user->n_cheque,

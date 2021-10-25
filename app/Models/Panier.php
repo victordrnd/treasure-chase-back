@@ -17,7 +17,7 @@ class Panier extends Model
         $total = 0;
         $user = User::where('panier_id', $this->id)->first();
         if($user->is_bde){
-            $total += 250;
+            $total += 255;
         }else{
             $total += $user->is_cotisant ? 340 : 380;
         }

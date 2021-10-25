@@ -60,12 +60,12 @@ class WaitingListeUpdate extends Command {
         $to_notif = Panier::whereIn("id", $waiting_liste_panier)->with('user')->get();
         foreach ($to_notif as $panier) {
             try {
-                // Message::send([
-                //     'to' => $panier->user->phone,
-                //     'text' => "Black Pinthère\nTu n'es plus en liste d'attente pour la SkiWeek, tu as maintenant 48h pour procéder au paiement.\nConnectes toi à ton compte pour en savoir plus !",
-                //     'pushtype' => 'alert',
-                //     'sender' => 'BDE CPE'
-                // ]);
+                Message::send([
+                    'to' => $panier->user->phone,
+                    'text' => "Black Pinthère\nTu n'es plus en liste d'attente pour la SkiWeek, tu as maintenant 48h pour procéder au paiement.\nConnectes toi à ton compte pour en savoir plus !",
+                    'pushtype' => 'alert',
+                    'sender' => 'BDE CPE'
+                ]);
                 error_log("Envoie d'une notification à : ". $panier->user->firstname . " " . $panier->user->lastname);
             } catch (\Exception $e) {
                 error_log(sprintf("\033[31m%s\033[0m", "ERROR : " . $panier->user['firstname'] . " " . $panier->user['lastname'] . " " . $e->getMessage()));

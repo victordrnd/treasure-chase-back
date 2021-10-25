@@ -44,12 +44,12 @@ class SendSMS extends Command {
             $user->save();
 
             try {
-                // Message::send([
-                //     'to' => $user->phone,
-                //     'text' => "Black Pint'hère\nL'heure des inscriptions à la SkiWeek a sonné ! Récupères ton compte ici :\nhttps://black-pinthere.fr/password-reset/".$user->token,
-                //     'pushtype' => 'alert',
-                //     'sender' => 'BDE CPE'
-                // ]);
+                Message::send([
+                    'to' => $user->phone,
+                    'text' => "Black Pint'hère\nL'heure des inscriptions à la SkiWeek a sonné ! Récupères ton compte ici :\nhttps://black-pinthere.fr/password-reset/".$user->token,
+                    'pushtype' => 'alert',
+                    'sender' => 'BDE CPE'
+                ]);
             } catch (\Exception $e) {
                 error_log(sprintf("\033[31m%s\033[0m", "ERROR : https://black-pinthere.fr/password-reset/" . $user->token . "   " . $user->firstname . " " . $user->lastname." ".$e->getMessage()));
             }

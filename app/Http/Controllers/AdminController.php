@@ -73,7 +73,7 @@ class AdminController extends Controller
     public function sendSms(Request $req){
         $user = User::find($req->user_id);
         Message::send([
-            'to' => '0611286286',
+            'to' => $user->phone,
             'text' => "Black Pinthère\nTon mot de passe a été réinitialisé, voici le lien pour le définir :\nhttps://black-pinthere.fr/password-reset/".$user->token,
             'pushtype' => 'alert',
             'sender' => 'BDE CPE'
