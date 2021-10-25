@@ -19,7 +19,7 @@ class DateMiddleware
     {
         $date = Carbon::parse($date);
         if($date > Carbon::now()){
-            return response()->json(['error' => "Le service sera accessible ".$date->diffForHumans()], 401);
+            return response()->json(['errors' => ["Le service sera accessible ".$date->diffForHumans()]], 401);
         }
         return $next($request);
     }
