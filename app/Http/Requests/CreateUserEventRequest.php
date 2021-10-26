@@ -24,7 +24,7 @@ class CreateUserEventRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'string|exists:users,code',
+            'code' => 'string|exists:user_scans,code',
             'event_id' => 'integer|exists:events,id'
         ];
     }
