@@ -103,7 +103,7 @@ class AdminController extends Controller
         $filepath = Excel::store(new UsersExport(), 'public/export.xlsx', null, null,[
             'visibility' => 'public'
         ]);
-        $protocol = $req->secure() ? "https://" : "http://";
+        $protocol = "https://";//$req->secure() ? "https://" : "http://";
         return ['path' => $protocol.$req->getHttpHost()."/storage/export.xlsx"];
     }
 }
