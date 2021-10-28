@@ -63,7 +63,7 @@ class PanierController extends Controller {
         if ($user->is_bde || $user->is_liste) {
             $date = Carbon::parse("2021-11-05 12:00:00");
         } else {
-            $date = Carbon::parse("2021-11-08 20:00:00");
+            $date = Carbon::parse("2021-11-08 22:00:00");
         }
         if ($date > Carbon::now()) {
             return response()->json(['error' => "Le service sera accessible " . $date->diffForHumans()], 401);
