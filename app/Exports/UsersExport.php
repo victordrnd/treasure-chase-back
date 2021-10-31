@@ -42,7 +42,7 @@ class UsersExport implements FromCollection
                 'N° Cheque' => $panier->user->n_cheque,
                 'Ski/Snow' => $panier->user->is_surf ? "Snow" : "Ski",
                 'Montant' => $panier->price,
-                'Mode de paiement' => Pumpkin::where('email', $panier->user->email)->exists() ? "Pumpkin" : "Espèce",
+                'Mode de paiement' => Pumpkin::where('email', $panier->user->email)->exists() ? "Pumpkin" : ($panier->status->code == "finished" ? "Espèce" : "N/A"),
                 'Taille du Pull' => ($pull = self::search("model", "Pull", $items)) ? $pull['taille'] : null,
                 'Forfait' => ($forfait = self::search("model", "Forfait", $items)) ? $forfait['label'] : "Pas de forfait",
                 'Nourriture' => ($foodpack = self::search("model", "FoodPack", $items)) ? ucfirst($foodpack['code']) : null,
