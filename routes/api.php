@@ -85,6 +85,8 @@ Route::group(['middleware' => 'throttle:100,1'], function () {
         Route::group(['prefix' => 'cart'], function () {
             Route::get('/{user_id}',        [AdminController::class, "showCart"])->where('id', '[0-9]+');
             Route::post('/confirm',         [AdminController::class, "confirmCart"]);
+            Route::post('/remove_item',     [AdminController::class, "removeItemPanier"]);
+            Route::post('/add_item',        [AdminController::class, "addItemPanier"]);
         });
 
 

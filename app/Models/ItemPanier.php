@@ -16,7 +16,7 @@ class ItemPanier extends Model
 
     public $appends = ['item'];
 
-    protected $hidden = ['model_id', 'model_type', 'panier_id', 'id'];
+    protected $hidden = ['model_id', 'model_type', 'panier_id'];
 
     public function getItemAttribute(){
         return $this->model_type::find($this->model_id);
