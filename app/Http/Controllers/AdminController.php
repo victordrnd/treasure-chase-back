@@ -7,14 +7,12 @@ use App\Http\Resources\UserCollectionResource;
 use App\Http\Resources\UserResource;
 use App\Imports\PumpkinsImport;
 use App\Models\Panier;
-use App\Models\Pumkin;
 use App\Models\Pumpkin;
 use App\Models\Status;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use Symfony\Component\Console\Input\Input;
 use Illuminate\Support\Str;
 use SMSFactor\Laravel\Facade\Message;
 use Illuminate\Support\Facades\Cache;
@@ -103,7 +101,7 @@ class AdminController extends Controller
         $filepath = Excel::store(new UsersExport(), 'public/export.xlsx', null, null,[
             'visibility' => 'public'
         ]);
-        $protocol = $req->secure() ? "https://" : "http://";
+        $protocol = "https://";//$req->secure() ? "https://" : "http://";
         return ['path' => $protocol.$req->getHttpHost()."/storage/export.xlsx"];
     }
 }
