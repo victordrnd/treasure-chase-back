@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => 'throttle:100,1'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', [AuthController::class, 'login'])->middleware('date:2021-11-01 12:00');
@@ -100,4 +99,3 @@ Route::group(['middleware' => 'throttle:100,1'], function () {
 
         Route::get('/export',              [AdminController::class, 'export']);
     });
-});

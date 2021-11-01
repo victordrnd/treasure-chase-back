@@ -21,7 +21,7 @@ class FoodPackSeeder extends Seeder
         ]);
 
         FoodPack::create([
-            'label'=> 'Pack nourriture classique Hallal',
+            'label'=> 'Pack nourriture classique Halal',
             'code' => 'hallal',
             'price'=> 63
         ]);
@@ -31,5 +31,13 @@ class FoodPackSeeder extends Seeder
             'code' => 'veggie',
             'price'=> 63
         ]);
+
+
+        FoodPack::create([
+            'label' => 'Pack nourriture des BP',
+            'code' => 'bp_pack',
+            'price' => 50
+        ]);
+        
     }
 }

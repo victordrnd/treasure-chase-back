@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\FoodPack;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -39,24 +40,28 @@ class SendSMS extends Command {
      */
     public function handle() {
         $users = User::whereNull('password')->get();
+        $i = 0;
         foreach ($users as $user) {
             $user->token = Str::random(18);
             $user->save();
-
             if($user->phone != "0"){
                 try {
-                    Message::send([
-                        'to' => $user->phone,
-                        'text' => "Black Pint'hère\nL'heure des inscriptions à la SkiWeek a sonné ! Récupères ton compte ici :\nhttps://black-pinthere.fr/password-reset/".$user->token,
-                        'pushtype' => 'alert',
-                        'sender' => 'BDE CPE'
-                    ]);
+                    // Message::send([
+                    //     'to' => $user->phone,
+                    //     'text' => "Black Pint'hère\nL'heure des inscriptions à la SkiWeek a sonné ! Récupères ton compte ici :\nhttps://black-pinthere.fr/password-reset/".$user->token,
+                    //     'delay' => "2021-11-01 12:00:00",
+                    //     'pushtype' => 'alert',
+                    //     'sender' => 'BDE CPE'
+                    // ]);
                 } catch (\Exception $e) {
-                    error_log(sprintf("\033[31m%s\033[0m", "ERROR : https://black-pinthere.fr/password-reset/" . $user->token . "   " . $user->firstname . " " . $user->lastname." ".$e->getMessage()));
+                    error_log(sprintf("\033[31m%s\033[0m", "ERROR - ". strval($i)." : https://black-pinthere.fr/password-reset/" . $user->token . "   " . $user->firstname . " " . $user->lastname." ".$e->getMessage()));
                 }
                 error_log('Sending SMS to ' . $user->lastname . " " . $user->firstname . "  : [" . $user->phone . "] https://black-pinthere.fr/password-reset/" . $user->token);
+                $i++;
             }
         }
         return 0;
     }
 }
+
+
