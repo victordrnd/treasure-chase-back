@@ -39,7 +39,7 @@ class AdminController extends Controller {
 
     public function getBillets() {
         return Cache::remember('billets', 60*3, function () {
-            return new UserCollectionResource(User::orderBy('lastname')->get());
+            return response()->json(new UserCollectionResource(User::orderBy('lastname')->get()));
         });
     }
 
