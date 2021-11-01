@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use SMSFactor\Laravel\Facade\Message;
 use Illuminate\Support\Facades\Cache;
+
 class AdminController extends Controller {
     public function checkIsAdmin() {
         return auth()->user()->is_admin;
@@ -37,9 +38,12 @@ class AdminController extends Controller {
             ));
     }
 
-    public function getBillets() {
-        return Cache::remember('billets', 60*15, function () {
-            return response()->json(new UserCollectionResource(User::orderBy('lastname')->get()));
+    public function getBillets(Request $req) {
+        if ($req->clear == "true") {
+            Cache::forget('billets');
+        }
+        return Cache::remember('billets', 60 * 15, function () {
+            return json_encode(new UserCollectionResource(User::orderBy('lastname')->get()));
         });
     }
 
