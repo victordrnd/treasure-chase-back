@@ -15,7 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        $billet = Pumpkin::where('email', $this->email)->first();
+        $billet = null;//Pumpkin::where('email', $this->email)->first();
         return [
             'id' => $this->id,
             'lastname' => $this->lastname,
