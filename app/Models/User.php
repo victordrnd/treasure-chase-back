@@ -69,5 +69,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Panier::class);
     }
 
+    public function billet(){
+        return $this->hasOne(Pumpkin::class, "email", "email");
+    }
+
 
 }

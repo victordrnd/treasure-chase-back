@@ -15,7 +15,6 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        //$billet = Pumpkin::where('email', $this->email)->first();
         return [
             'id' => $this->id,
             'lastname' => $this->lastname,
@@ -29,11 +28,11 @@ class UserResource extends JsonResource
             'is_bde' => $this->is_bde,
             'is_liste' => $this->is_liste,
             'total_to_pay' => $this->panier->price ?? 0,
-            'total_paid' => 0,//$billet->montant ?? 0,
-            'date_paiement' => 0,//$billet->date ?? null,
+            'total_paid' => $this->billet->montant ?? 0,
+            'date_paiement' =>$this->billet->date ?? null,
             'status' => $this->whenLoaded('panier', function(){
                 return $this->panier->status;
-            })
+             })
         ];
     }
 }
