@@ -43,7 +43,7 @@ class AdminController extends Controller {
             Cache::forget('billets');
         }
         return Cache::remember('billets', 60 * 15, function () {
-            return json_encode(new UserCollectionResource(User::orderBy('lastname')->get()));
+            return json_encode(new UserCollectionResource(User::with('panier')->orderBy('lastname')->get()));
         });
     }
 
