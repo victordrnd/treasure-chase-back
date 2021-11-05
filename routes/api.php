@@ -29,8 +29,8 @@ use Illuminate\Support\Facades\Route;
 
 
     Route::group(['prefix' => 'auth'], function () {
-        Route::post('login', [AuthController::class, 'login'])->middleware('date:2021-11-01 12:00');
-        Route::post('register', [AuthController::class, 'register'])->middleware('date:2021-11-01 12:00');
+        Route::post('login', [AuthController::class, 'login']);//->middleware('date:2021-11-01 12:00');
+        Route::post('register', [AuthController::class, 'register']);//->middleware('date:2021-11-01 12:00');
         Route::post('password-reset', [AuthController::class, 'passwordReset']);
         Route::get('/token/{token}', [AuthController::class,  'getUserFromPasswordResetToken']);
     });
