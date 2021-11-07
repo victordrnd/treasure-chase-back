@@ -32,7 +32,7 @@ class AdminController extends Controller {
 
     public function getCountByDate() {
         return Pumpkin::groupBy(\DB::raw('DATE(date)'))
-            ->orderBy('date', 'DESC')->get(array(
+            ->orderBy('date', 'asc')->get(array(
                 \DB::raw('DATE(date) as name'),
                 \DB::raw('COUNT(*) as value')
             ));
