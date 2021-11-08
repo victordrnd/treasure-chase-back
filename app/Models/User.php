@@ -35,7 +35,8 @@ class User extends Authenticatable implements JWTSubject
         'n_cheque',
         'is_bde',
         'is_liste',
-        'is_surf'
+        'is_surf',
+        'comments'
     ];
 
     public function getJWTIdentifier()
@@ -61,7 +62,8 @@ class User extends Authenticatable implements JWTSubject
         'is_admin',
         'is_allowed',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'comments'
     ];
 
 

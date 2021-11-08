@@ -5,16 +5,14 @@ namespace App\Http\Resources;
 use App\Models\Pumpkin;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
-{
+class UserResource extends JsonResource {
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
-    {
+    public function toArray($request) {
         return [
             'id' => $this->id,
             'lastname' => $this->lastname,
@@ -29,10 +27,11 @@ class UserResource extends JsonResource
             'is_liste' => $this->is_liste,
             'total_to_pay' => $this->panier->price ?? 0,
             'total_paid' => $this->billet->montant ?? 0,
-            'date_paiement' =>$this->billet->date ?? null,
-            'status' => $this->whenLoaded('panier', function(){
+            'date_paiement' => $this->billet->date ?? null,
+            'status' => $this->whenLoaded('panier', function () {
                 return $this->panier->status;
-             })
+            }),
+            'comments' => $this->comments
         ];
     }
 }
