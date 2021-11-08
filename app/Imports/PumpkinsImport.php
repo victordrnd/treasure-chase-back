@@ -33,7 +33,7 @@ class PumpkinsImport implements ToCollection {
                                 'firstname' => $row[8],
                                 'lastname' => $row[7],
                                 'email' => $row[12],
-                                'phone' => $row[11],
+                                'phone' => $row[10],
                                 'date' => Carbon::createFromFormat('d/m/Y H:i:s', $row[0])->toDateString()
                             ]);
                         }
