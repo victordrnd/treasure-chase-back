@@ -70,7 +70,7 @@ class PanierController extends Controller {
         }
         $status_ids = Status::whereIn('code', ['finished', 'waiting_paiement', 'waiting_second_paiement'])->pluck("id");
         $count = Panier::whereIn('status_id', $status_ids)->count();
-        if ($count < 350) {
+        if ($count < 300) {
             $code = 'waiting_paiement';
             $user->is_allowed = true;
             $user->save();
