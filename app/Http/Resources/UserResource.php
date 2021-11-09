@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Panier;
 use App\Models\Pumpkin;
+use App\Models\Status;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource {
@@ -31,7 +33,16 @@ class UserResource extends JsonResource {
             'status' => $this->whenLoaded('panier', function () {
                 return $this->panier->status;
             }),
-            'comments' => $this->comments
+            'comments' => $this->comments,
+            'position' => $this->whenLoaded('panier', function () {
+                if(!is_null($this->panier)){
+                    if($this->panier->status->code == "waiting_list"){
+                        return Panier::where('completed_at', '<', $this->panier->completed_at)->where('status_id', Status::where('code', 'waiting_list')->first()->id)->count() + 1;
+                    }
+                }
+                return null;
+            }), 
+
         ];
     }
 }

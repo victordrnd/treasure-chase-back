@@ -24,15 +24,15 @@ class PumpkinsImport implements ToCollection {
              foreach ($rows as $row) {
                 if (count($row) > 11) {
                     if ($row[1] == "Payée") {
-                        if (Pumpkin::where('email', $row[12])->exists()) {
-                            $pumpkin = Pumpkin::where('email', $row[12])->first();
+                        if (Pumpkin::where('email', $row[11])->exists()) {
+                            $pumpkin = Pumpkin::where('email', $row[11])->first();
                             $pumpkin->increment('montant', intval($row[5]));
                         } else {
                             $pumpkin = Pumpkin::create([
                                 'montant' => intval($row[5]),
                                 'firstname' => $row[8],
                                 'lastname' => $row[7],
-                                'email' => $row[12],
+                                'email' => $row[11],
                                 'phone' => $row[10],
                                 'date' => Carbon::createFromFormat('d/m/Y H:i:s', $row[0])->toDateString()
                             ]);
