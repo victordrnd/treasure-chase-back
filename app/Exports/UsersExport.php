@@ -42,6 +42,7 @@ class UsersExport implements FromCollection
                 'N° Cheque' => $panier->user->n_cheque,
                 'Ski/Snow' => $panier->user->is_surf ? "Snow" : "Ski",
                 'Montant' => $panier->price,
+                'Montant payé' => $panier->user->billet->montant ?? 0,
                 'Mode de paiement' => Pumpkin::where('email', $panier->user->email)->exists() ? "Pumpkin" : ($panier->status->code == "finished" ? "Espèce" : "N/A"),
                 'Taille du Pull' => ($pull = self::search("model", "Pull", $items)) ? $pull['taille'] : null,
                 'Forfait' => ($forfait = self::search("model", "Forfait", $items)) ? $forfait['label'] : "Pas de forfait",
@@ -49,7 +50,8 @@ class UsersExport implements FromCollection
                 'Assurance' => ($assurance = self::search("model", "Assurance", $items)) ? ucfirst($assurance['code']) : "Aucune",
                 'Matériel' => $materiel ? $materiel->item->label : null,
                 'Categorie' => $materiel ? (($category = self::search("id", $materiel->item->materiel_category_id, $categories)) ? $category["label"]  : null): null,
-                'Casque' => ($casque = self::search("code", "casque", $items)) ? "Oui" : "Non"
+                'Casque' => ($casque = self::search("code", "casque", $items)) ? "Oui" : "Non",
+                'Commentaires' => $panier->user->comments
             ];
         }
         array_unshift($data, array_keys($data[0]));
