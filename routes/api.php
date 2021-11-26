@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\InscriptionHHController;
 use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\PanierController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\TombolaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEventController;
@@ -61,6 +62,13 @@ use Illuminate\Support\Facades\Route;
             Route::get('/complete', [PanierController::class, 'complete']);
             Route::post('/pay',    [PanierController::class, 'sendNotification']);
             Route::get('/position', [PanierController::class, 'getPosition']);
+        });
+
+        Route::group(['prefix' => 'rooms'], function () {
+            Route::get('/',                 [RoomController::class, 'list']);
+            Route::get('/{id}',             [RoomController::class, 'show'])->where('id', '[0-9]+');
+            Route::post('/join',            [RoomController::class, 'join']);
+            Route::get('/leave',            [RoomController::class, 'leave']);
         });
 
         Route::group(['prefix' => 'details'],function(){

@@ -12,12 +12,6 @@ class DatabaseSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $this->call(PullSeeder::class);
-        $this->call(MaterielCategorySeeder::class);
-        $this->call(MaterielSeeder::class);
-        $this->call(FoodPackSeeder::class);
-        $this->call(ForfaitSeeder::class);
-        $this->call(AssuranceSeeder::class);
-        $this->call(StatusSeeder::class);
+       $this->call(RoomSeeder::class);
     }
 }

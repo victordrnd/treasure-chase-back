@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'token',
         'is_cotisant',
         'password',
+        'room_id',
         'panier_id',
         'taille',
         'poids',
