@@ -38,11 +38,11 @@ class WaitingListeUpdate extends Command {
      * @return int
      */
     public function handle() {
-        $panier_waiting_paiement = User::where('is_bde', 0)->whereHas('panier', function($q){
+        $panier_waiting_paiement = User::whereHas('panier', function($q){
             return $q->where('status_id', 3);
         })->pluck('panier_id');
 
-        $limit_to_move = 350 - (317-count($panier_waiting_paiement));
+        $limit_to_move = count($panier_waiting_paiement);//350 - (317-count($panier_waiting_paiement));
 
         $paniers_to_move = Panier::where('status_id', 2)->orderBy('completed_at', 'asc')->limit($limit_to_move)->pluck('id');
 
