@@ -11,15 +11,11 @@ use Illuminate\Support\Str;
 class RoomController extends Controller {
     public function list() {
         $user = auth()->user();
-        // if ($user->is_admin) {
-        //     $rooms = Room::with('members')->get();
-        // } else {
-            $rooms = Room::where('is_private', false)->where('is_liste', false)->orWhere('id',$user->room_id)->get();
-            foreach ($rooms as &$room) {
-                $room_members = User::where('room_id', $room->id)->get(["id", "lastname", "firstname", "filiere"]);
-                $room->members = $room_members;
-            }
-        // }
+        $rooms = Room::where('is_private', false)->where('is_liste', false)->orWhere('id', $user->room_id)->get();
+        foreach ($rooms as &$room) {
+            $room_members = User::where('room_id', $room->id)->get(["id", "lastname", "firstname", "filiere"]);
+            $room->members = $room_members;
+        }
         return $rooms;
     }
 
@@ -83,11 +79,11 @@ class RoomController extends Controller {
             $room = Room::where('id', $user->room_id)->first();
             if (!is_null($room)) {
                 $member_count = User::where('room_id', $room->id)->get();
-                if(count($member_count) == 1){
+                if (count($member_count) == 1) {
                     $room->is_private = false;
                     $room->code = null;
                     $room->leader_id = null;
-                }else{
+                } else {
                     if ($room->leader_id == $user->id) {
                         $room->leader_id = $member_count->firstWhere('id', "!=", $room->leader_id)->id;
                     }
