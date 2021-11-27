@@ -9,6 +9,7 @@ use App\Imports\PumpkinsImport;
 use App\Models\ItemPanier;
 use App\Models\Panier;
 use App\Models\Pumpkin;
+use App\Models\Room;
 use App\Models\Status;
 use App\Models\User;
 use Carbon\Carbon;
@@ -138,5 +139,16 @@ class AdminController extends Controller {
         }
 
         return Panier::where('id', $req->panier_id)->with('items', 'status')->firstOrFail();
+    }
+
+
+    public function listRooms(){
+        return Room::with('members')->get();
+    }
+
+    public function getUsersWithoutRooms(){
+        return User::whereNull('room_id')->whereHas('panier', function($q){
+            return $q->where('status_id', ">=", 4);
+        })->whereNotNull('n_cheque')->get();
     }
 }

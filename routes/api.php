@@ -107,5 +107,10 @@ use Illuminate\Support\Facades\Route;
             Route::post('/sendsms',        [AdminController::class, 'sendSms']);
         });
 
+        Route::group(['prefix' => "rooms"], function(){
+            Route::get('/',         [AdminController::class,"listRooms"]);
+            Route::get('/users/available',   [AdminController::class, "getUsersWithoutRooms"]);
+        });
+
         Route::get('/export',              [AdminController::class, 'export']);
     });
