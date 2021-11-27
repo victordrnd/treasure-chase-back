@@ -24,7 +24,7 @@ class JoinRoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => "sometimes|string",
+            'code' => "sometimes|string|nullable",
             'room_id' => 'required|integer|exists:rooms,id'            
         ];
     }

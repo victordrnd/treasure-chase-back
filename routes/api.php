@@ -67,8 +67,10 @@ use Illuminate\Support\Facades\Route;
         Route::group(['prefix' => 'rooms'], function () {
             Route::get('/',                 [RoomController::class, 'list']);
             Route::get('/{id}',             [RoomController::class, 'show'])->where('id', '[0-9]+');
+            Route::get('/token/{code}',     [RoomController::class, "getFromToken"]);
             Route::post('/join',            [RoomController::class, 'join']);
             Route::get('/leave',            [RoomController::class, 'leave']);
+            Route::put('/',                 [RoomController::class, 'update']);
         });
 
         Route::group(['prefix' => 'details'],function(){

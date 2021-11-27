@@ -17,7 +17,7 @@ class Room extends Model
         'is_liste'
     ];
 
-    public $appends = ['members_count'];
+    // public $appends = ['members_count'];
 
     protected $hidden = [
         'updated_at',
@@ -30,7 +30,7 @@ class Room extends Model
 
 
 
-    public function getMembersCountAttribute(){
-        return User::where('room_id', $this->id)->count();
-    }
+    // public function getMembersCountAttribute(){
+    //     return count($this->members);
+    // }
 }
