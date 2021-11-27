@@ -69,7 +69,8 @@ class RoomController extends Controller {
         }
         $room->update([
             'is_private' => $req->is_private,
-            'code' => $req->is_private ? Str::random(20) : null
+            'code' => $req->is_private ? Str::random(20) : null,
+            'label' => $req->label
         ]);
         return $this->show($room->id);
     }

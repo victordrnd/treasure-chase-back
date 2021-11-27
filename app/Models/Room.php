@@ -14,7 +14,8 @@ class Room extends Model
         'capacity',
         'code',
         'is_private',
-        'is_liste'
+        'is_liste',
+        'label'
     ];
 
     // public $appends = ['members_count'];
