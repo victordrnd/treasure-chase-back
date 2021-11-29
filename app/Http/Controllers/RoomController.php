@@ -27,7 +27,7 @@ class RoomController extends Controller {
         if (!is_null($panier)) {
             if ($panier->status->code == "finished" || $panier->status->code == "waiting_second_paiement") {
                 if (!$user->is_bde) {
-                    if (strlen($user->n_cheque ?? "") < 5) {
+                    if (strlen($user->n_cheque ?? "") < 5 && !$user->is_bde) {
                         return response()->json("Le cheque de caution n'a toujours pas été enregistré", 401);
                     }
                 }
