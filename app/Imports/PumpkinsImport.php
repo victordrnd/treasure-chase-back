@@ -22,18 +22,18 @@ class PumpkinsImport implements ToCollection {
         \DB::transaction(function () use ($rows) {
             Pumpkin::where('id', '>', 0)->delete();
              foreach ($rows as $row) {
-                if (count($row) > 11) {
+                if (count($row) > 12) {
                     if ($row[1] == "Payée") {
-                        if (Pumpkin::where('email', $row[11])->exists()) {
-                            $pumpkin = Pumpkin::where('email', $row[11])->first();
+                        if (Pumpkin::where('email', $row[12])->exists()) {
+                            $pumpkin = Pumpkin::where('email', $row[12])->first();
                             $pumpkin->increment('montant', intval($row[5]));
                         } else {
                             $pumpkin = Pumpkin::create([
                                 'montant' => intval($row[5]),
                                 'firstname' => $row[8],
                                 'lastname' => $row[7],
-                                'email' => $row[11],
-                                'phone' => $row[9],
+                                'email' => $row[12],
+                                'phone' => $row[11],
                                 'date' => Carbon::createFromFormat('d/m/Y H:i:s', $row[0])->toDateString()
                             ]);
                         }
