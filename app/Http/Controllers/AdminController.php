@@ -149,6 +149,8 @@ class AdminController extends Controller {
     public function getUsersWithoutRooms(){
         return User::whereNull('room_id')->whereHas('panier', function($q){
             return $q->where('status_id', ">=", 4);
-        })->whereNotNull('n_cheque')->get();
+        })->where(function($q) {
+            return $q->whereNotNull("n_cheque")->orWhere('is_bde', 1);
+        })->get();
     }
 }
