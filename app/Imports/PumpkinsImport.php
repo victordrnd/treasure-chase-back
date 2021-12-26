@@ -41,7 +41,7 @@ class PumpkinsImport implements ToCollection {
                         $user = User::where('email', $pumpkin->email)->first();
                         if(!is_null($user)){
                             if(!is_null($user->panier)){
-                                if($pumpkin->montant >= ($user->panier->price-5)){
+                                if($pumpkin->montant >= ($user->panier->price-36)){
                                     Panier::where('id', $user->panier_id)->update([
                                         'status_id' => Status::where('code', 'finished')->first()->id
                                     ]);
