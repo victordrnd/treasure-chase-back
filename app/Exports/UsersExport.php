@@ -51,7 +51,8 @@ class UsersExport implements FromCollection
                 'Matériel' => $materiel ? $materiel->item->label : null,
                 'Categorie' => $materiel ? (($category = self::search("id", $materiel->item->materiel_category_id, $categories)) ? $category["label"]  : null): null,
                 'Casque' => ($casque = self::search("code", "casque", $items)) ? "Oui" : "Non",
-                'Commentaires' => $panier->user->comments
+                'N° Chambre' => $panier->user->room_id,
+                'Commentaires' => $panier->user->comments,
             ];
         }
         array_unshift($data, array_keys($data[0]));
